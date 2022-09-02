@@ -30,6 +30,8 @@ const client = new SecretManagerServiceClient();
 const policy = secret.replication.replication;
 console.info(`Found secret ${secret.name} (${policy})`);*/
 //"global localized not centralized"
+//"paraorganization"
+//"if profits increase, the lie that [putin caused] it is 'Putins Prike hike' is simply a lie"
 //}getSecret();// [END secretmanager_get_secret]}
 
 //main(...args).catch(console.error);
@@ -43,32 +45,38 @@ app.get('/', (req, res) => {
 
 var locations = require('mastercard-locations');
 const port = 8080;
-const server = app.listen(port, async () => {/**
-  *
-  * Script-Name: atm_locations
-  * "[Im economist, yet]..here is how I want you to think about the economy."
-  */
-  const [secret] = client.getSecret({
-    name: args,
+const server = app.listen(port, async () => {
+  //secret
+  /*
+  const newpurpose = (func, sng) => {
+    return {
+      name: func().name,
+    }[sng + "name"]
+  }*/
+  /**
+    *
+    * Script-Name: atm_locations
+    * "[Im economist, yet]..here is how I want you to think about the economy."
+    */
+  /*const secret = async () => client.getSecret({
+    name: args
   });
   //const policy = secret.replication.replication;
   //console.info(`Found secret ${secret.name} (${policy})`);
   // Add a version with a payload onto the secret.
-  const [version] = await client.addSecretVersion({
-    parent: secret.name,
+  var version = async () => await client.addSecretVersion({
+    parent: secret().name,
     payload: {
       data: Buffer.from(payload, 'utf8'),
     },
   });
-
-  console.info(`Captured secret version ${version.name}`);
+  version = newpurpose(version, "version")
+  console.info(`Captured secret version ${versionname.name}`);*/
 
   // Access the secret.
-  const [accessResponse] = await client.accessSecretVersion({
-    name: version.name,
-  });
+  const accessResponse = async () => await client.accessSecretVersion({ name: "1" });//versionname
 
-  const responsePayload = accessResponse.payload.data.toString('utf8');
+  const responsePayload = accessResponse().payload.data.toString('utf8');
   console.info(`Captured secret: ${responsePayload}`);
   //https://cloud.google.com/secret-manager/docs/reference/libraries#client-libraries-install-nodejs
 
