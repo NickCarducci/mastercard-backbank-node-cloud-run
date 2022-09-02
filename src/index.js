@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-'use strict';
+//'use strict';
 const args = process.argv.slice(2);
 //https://github.com/googleapis/nodejs-secret-manager/blob/main/samples/getSecret.js
 //async function main(name = 'projects/my-project/secrets/my-secret') {
@@ -45,7 +45,8 @@ app.get('/', (req, res) => {
 
 var locations = require('mastercard-locations');
 const port = 8080;
-const server = app.listen(port, async () => {
+const accessResp = async () => await client.accessSecretVersion({ name: "1" });//versionname
+const server = app.listen(port, async (accessResponse = await accessResp()) => {
   //secret
   /*
   const newpurpose = (func, sng) => {
@@ -70,13 +71,14 @@ const server = app.listen(port, async () => {
       data: Buffer.from(payload, 'utf8'),
     },
   });
+  //"lazy selfish aabove"
   version = newpurpose(version, "version")
   console.info(`Captured secret version ${versionname.name}`);*/
 
   // Access the secret.
-  const accessResponse = async () => await client.accessSecretVersion({ name: "1" });//versionname
-
-  const responsePayload = accessResponse().payload.data.toString('utf8');
+  if (!accessResponse) return console.log("no accessResponse");
+  if (!accessResponse.payload) return console.log("no accessResponse payload");
+  const responsePayload = accessResponse.payload.data.toString('utf8');
   console.info(`Captured secret: ${responsePayload}`);
   //https://cloud.google.com/secret-manager/docs/reference/libraries#client-libraries-install-nodejs
 
@@ -94,7 +96,7 @@ const server = app.listen(port, async () => {
     sandbox: true,
     debug: true,
     authentication: authentication
-  });
+  });//"im speculating like everyone else is sometime we prove a negative search warrant"
 
 
   var requestData = {
