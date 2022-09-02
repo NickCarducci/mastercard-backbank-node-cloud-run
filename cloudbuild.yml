@@ -1,0 +1,58 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: Build using Cloud Build
+on:
+  push:
+    branches:
+    - 'main'
+
+#env:
+  #MASTERCARD_CONSUMER_KEY: ${{ secrets.MASTERCARD_CONSUMER_KEY }}
+  #MASTERCARD_P12_BINARY: ${{ secrets.MASTERCARD_P12_BINARY }}
+# [START cloudbuild_npm_node]
+steps:
+# Install dependencies
+- name: node
+  entrypoint: npm
+  args: ['install']
+# Run tests
+#- name: node
+  #entrypoint: npm
+  #args: ['test']
+# Run custom commands
+- name: node # https://github.com/google-github-actions/setup-gcloud/blob/main/example-workflows/cloud-build/.github/workflows/cloud-build.yml
+  entrypoint: npm
+  args: ['run', 'build'] #,
+         #'--build-arg',
+         #'node_version=${MASTERCARD_CONSUMER_KEY}',
+         #'-t',
+         #'gcr.io/$PROJECT_ID/build-substitutions-nodejs-${MASTERCARD_CONSUMER_KEY}',
+         #'.']
+  secretEnv: ['MASTERCARD_CONSUMER_KEY', 'MASTERCARD_P12_BINARY']
+availableSecrets:
+  secretManager:
+  - versionName: projects/vaumoney/secrets/MASTERCARD_CONSUMER_KEY/versions/latest
+    env: 'MASTERCARD_CONSUMER_KEY'
+  - versionName: projects/vaumoney/secrets/MASTERCARD_P12_BINARY/versions/latest
+    env: 'MASTERCARD_P12_BINARY'
+    
+#substitutions:
+    #MASTERCARD_CONSUMER_KEY: {{secrets.}}
+    #MASTERCARD_P12_BINARY: v6.9.2 # default value
+
+  #env: https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values
+  #- 'MASTERCARD_CONSUMER_KEY=$MASTERCARD_CONSUMER_KEY'
+  #- 'MASTERCARD_P12_BINARY=$MASTERCARD_P12_BINARY'
+# [END cloudbuild_npm_node]
