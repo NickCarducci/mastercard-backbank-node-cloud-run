@@ -1,3 +1,37 @@
+
+// Copyright 2019 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+'use strict';
+const args = process.argv.slice(2);
+//https://github.com/googleapis/nodejs-secret-manager/blob/main/samples/getSecret.js
+//async function main(name = 'projects/my-project/secrets/my-secret') {
+const { SecretManagerServiceClient } = require('@google-cloud/secret-manager');
+const client = new SecretManagerServiceClient();
+
+//async function getSecret() {
+//const [secret] = await 
+/*client.getSecret({
+  name: args,
+}).then(async s=>{
+  const [secret] = await s;// destructuring still
+});
+const policy = secret.replication.replication;
+console.info(`Found secret ${secret.name} (${policy})`);*/
+//}getSecret();// [END secretmanager_get_secret]}
+
+main(...args).catch(console.error);
 const express = require('express');
 
 const app = express();
@@ -8,11 +42,34 @@ app.get('/', (req, res) => {
 
 var locations = require('mastercard-locations');
 const port = 8080;
-const server = app.listen(port, () => {/**
+const server = app.listen(port, async () => {/**
   *
   * Script-Name: atm_locations
   * "[Im economist, yet]..here is how I want you to think about the economy."
   */
+  const [secret] = client.getSecret({
+    name: args,
+  });
+  //const policy = secret.replication.replication;
+  //console.info(`Found secret ${secret.name} (${policy})`);
+  // Add a version with a payload onto the secret.
+  const [version] = await client.addSecretVersion({
+    parent: secret.name,
+    payload: {
+      data: Buffer.from(payload, 'utf8'),
+    },
+  });
+
+  console.info(`Captured secret version ${version.name}`);
+
+  // Access the secret.
+  const [accessResponse] = await client.accessSecretVersion({
+    name: version.name,
+  });
+
+  const responsePayload = accessResponse.payload.data.toString('utf8');
+  console.info(`Captured secret: ${responsePayload}`);
+  //https://cloud.google.com/secret-manager/docs/reference/libraries#client-libraries-install-nodejs
 
   var MasterCardAPI = locations.MasterCardAPI;
 
