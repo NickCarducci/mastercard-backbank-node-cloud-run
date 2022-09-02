@@ -26,13 +26,7 @@ steps:
   - name: "gcr.io/cloud-builders/gcloud"
     entrypoint: "bash"
     secretEnv: ['MASTERCARD_CONSUMER_KEY', 'MASTERCARD_P12_BINARY']
-availableSecrets:
-    secretManager:
-    - versionName: projects/$PROJECT_ID/secrets/MASTERCARD_CONSUMER_KEY/versions/latest
-      env: 'MASTERCARD_CONSUMER_KEY'
-    - versionName: projects/$PROJECT_ID/secrets/MASTERCARD_P12_BINARY/versions/latest
-      env: 'MASTERCARD_P12_BINARY'
-# Install dependencies
+    steps:
     - name: node
       entrypoint: npm
       args: ['install']
@@ -49,6 +43,13 @@ availableSecrets:
             #'-t',
             #'gcr.io/$PROJECT_ID/build-substitutions-nodejs-${MASTERCARD_CONSUMER_KEY}',
             #'.']
+availableSecrets:
+    secretManager:
+    - versionName: projects/$PROJECT_ID/secrets/MASTERCARD_CONSUMER_KEY/versions/latest
+      env: 'MASTERCARD_CONSUMER_KEY'
+    - versionName: projects/$PROJECT_ID/secrets/MASTERCARD_P12_BINARY/versions/latest
+      env: 'MASTERCARD_P12_BINARY'
+# Install dependencies
     
 #substitutions:
     #MASTERCARD_CONSUMER_KEY: {{secrets.}}
