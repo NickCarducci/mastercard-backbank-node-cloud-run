@@ -29,9 +29,10 @@ const client = new SecretManagerServiceClient();
 });
 const policy = secret.replication.replication;
 console.info(`Found secret ${secret.name} (${policy})`);*/
+//"global localized not centralized"
 //}getSecret();// [END secretmanager_get_secret]}
 
-main(...args).catch(console.error);
+//main(...args).catch(console.error);
 const express = require('express');
 
 const app = express();
