@@ -25,3 +25,7 @@ git commit -m "ok"
 git push
 
 `(Optional) Create a Google Cloud Service Account. If you already have a Service Account, take note of the email address and skip this step.` Add Principal: vaumoney@appspot.gserviceaccount.com or not the ID 580465804476@cloudbuild.gserviceaccount.com
+
+have to remove gcloud and node_modules from git? 
+
+`git push --set-upstream origin maintenance --force`
