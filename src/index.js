@@ -32,8 +32,13 @@ console.info(`Found secret ${secret.name} (${policy})`);*/
 //"paraorganization"
 //"if profits increase, the lie that [putin caused] it is 'Putins Prike hike' is simply a lie"
 //}getSecret();// [END secretmanager_get_secret]}
+//"[fund killer cops, don't vote] property rights"
 
 //main(...args).catch(console.error);
+//secret service roles logs
+// chnge IP external static to load balance vm
+//https://cloud.google.com/load-balancing/docs/https/setting-up-https-serverless#update_dns
+//https://cloud.google.com/load-balancing/docs/https/setting-up-https-serverless
 const express = require("express");
 
 const app = express();
@@ -176,3 +181,4 @@ const server = app.listen(port, async () => {
 });
 
 module.exports = app;
+//prosecuted bully

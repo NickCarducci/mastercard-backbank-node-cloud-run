@@ -1,0 +1,153 @@
+# openapi2-run.yaml
+swagger: '2.0'
+info:
+  title: mastercard-backbank # API_ID optional-string
+  #https://cloud.google.com/api-gateway/docs/get-started-cloud-run
+  description: node cloud run api mastercard p.12 customer keys # Sample API on API Gateway with a Cloud Run backend
+  version: 0.0.1
+host: "vault-co.in"
+basePath: "" # https://stackoverflow.com/questions/71258737/making-a-cloud-firestore-rest-api-call-through-cloud-endpoints
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+x-google-backend:
+  address: https://vault-co.in # APP_URL
+paths:
+  /:
+    get:
+      summary: Yes Hello cloud run (api gateway, load balance) service
+      operationId: hello
+      responses:
+        200:
+          description: This is a (Non-Graphical) Applicatin Programming Interface
+          schema:
+              type: string
+          default: '''ello guv'''
+
+        default:
+          description: Something is wrong
+          schema:
+              type: string
+          default: '''some not 200'''
+
+    options:
+      summary: Enable CORS with headers
+      description: |
+        Origin, Methods and Headers allowing headers potentially requested
+      tags:
+      - CORS
+      responses:
+        200:
+          description: OPTIONS responding headers
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                  type: string
+              #$ref: '#/definitions/String'
+              default: '''vau.money'''
+            Access-Control-Allow-Methods:
+              schema:
+                  type: string
+              default: '''GET,POST'''
+            Access-Control-Allow-Headers:
+              schema:
+                  type: string
+              default: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+          content: {}
+
+        default:
+          description: Something is wrong
+          schema:
+              type: string
+          default: '''some not 200'''
+
+    post:
+      parameters:
+       # - name: Authorization # bearer
+          #in: header
+          #required: true
+          #type: string
+          #description: Authentication token is required
+      - name: pageOffset
+        in: body
+        required: true
+        type: string #object
+        description: pageOffset is required, try 0
+      - name: pageLength
+        in: body
+        required: true
+        type: string
+        description: pageLength is required, try 10
+      - name: postalCode
+        in: body
+        required: true
+        type: string
+        description: postalCode is required, try 11101
+      responses: # https://swagger.io/docs/specification/describing-responses/
+        default: #200
+          description: post result
+          #content:v3
+          application/json:
+            schema:
+              type: object
+              description: response ok
+              required:
+                - results
+              properties:
+                results:
+                  collectionFormat: csv
+                  type: array
+                  default: []
+                meta:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                    description:
+                      type: string
+  #/assets/{asset}:
+    #get:
+      #parameters:
+        #- in: path
+          #name: asset
+          #type: string
+          #required: true
+          #description: Name of the asset.
+      #summary: Assets
+      #operationId: getAsset
+      #responses:
+        #'200':
+          #description: A successful response
+          #schema:
+            #type: string
+securityDefinitions: #https://cloud.google.com/api-gateway/docs/authenticating-users-firebase
+  firebase:
+    authorizationUrl: "" # empty for firebase frm bearer Authorization?
+    flow: "implicit"
+    type: "oauth2"
+    #flows:https://stackoverflow.com/questions/69951644/swagger-openapi-3-documentation-for-firebase-authentication-securityscheme
+      #implicit:
+        #authorizationUrl: ""
+        #scopes:
+          #read: Grants read access
+          #write: Grants write access
+          #admin: Grants access to admin operations
+    # Replace vaumoney with your project ID # X-Apigateway-Api-Userinfo
+    x-google-issuer: "https://securetoken.google.com/vaumoney"
+    x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com"
+    x-google-audiences: "vaumoney"
+security:
+  - firebase: [read]
+
+definitions:
+  String:
+    schema:
+        type: string
+    #properties:
+      #id:
+        #type: integer
+      #name:
+        #type: string
