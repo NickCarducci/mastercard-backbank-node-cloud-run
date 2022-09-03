@@ -29,3 +29,15 @@ git push
 have to remove gcloud and node_modules from git? 
 
 `git push --set-upstream origin maintenance --force`
+
+[cloud run (api gateway, load balance) service](https://cloud.google.com/api-gateway/docs/creating-api-config)
+
+`gcloud config list project`
+
+`gcloud config set project vaumoney`
+
+`gcloud api-gateway api-configs create backbank --api=backbank --openapi-spec=swagger.yaml --project=vaumoney --backend-auth-service-account=vaumoney@appspot.gserviceaccount.com`
+
+[IAM service accounts](https://cloud.google.com/api-gateway/docs/configure-dev-env#enabling_required_services) required for api gateway configs for vaumoney@appspot.gserviceaccount.com	
+
+[swagger.yaml](https://editor.swagger.io/)
