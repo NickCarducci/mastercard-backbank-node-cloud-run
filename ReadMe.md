@@ -26,7 +26,7 @@ git push
 
 `(Optional) Create a Google Cloud Service Account. If you already have a Service Account, take note of the email address and skip this step.` Add Principal: vaumoney@appspot.gserviceaccount.com or not the ID 580465804476@cloudbuild.gserviceaccount.com
 
-have to remove gcloud and node_modules from git? 
+### have to remove gcloud and node_modules from git? (.gitignore)
 
 `git push --set-upstream origin maintenance --force`
 
@@ -41,3 +41,13 @@ have to remove gcloud and node_modules from git?
 [IAM service accounts](https://cloud.google.com/api-gateway/docs/configure-dev-env#enabling_required_services) required for api gateway configs for vaumoney@appspot.gserviceaccount.com	
 
 [swagger.yaml](https://editor.swagger.io/)
+
+### [custom domain](https://cloud.google.com/api-gateway/docs/using-custom-domains)
+
+(regional http) load-balancer [backend](https://medium.com/google-cloud/choosing-the-right-load-balancer-9ec909148a85) type: [Serverless Network Endpoint Group](https://cloud.google.com/load-balancing/docs/negs/serverless-neg-concepts) - IP or fully qualifies domain name "referer + /"
+
+instance load balancer NEG Zonal for other uses than regional backend LB (premium is pay as you go)
+
+### or, use the provided api gateway https://backbank-_.gateway.dev/ with cloud armour
+
+with cloud run vs. ...compute engine,virtual machine,NEG
