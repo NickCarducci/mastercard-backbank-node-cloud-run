@@ -52,4 +52,4 @@ instance load balancer NEG Zonal for other uses than regional backend LB (premiu
 
 with cloud run vs. ...compute engine,virtual machine,NEG
 
-> Cloud run (custom domain): "None of the URLs above are directly accessible because this service only allows authenticated invocations." and swwagger.yaml uses such domain (or Assigned by Cloud Run https://backbank-_.a.run.app) as host
+> Cloud run (custom domain): "None of the URLs above are directly accessible because this service only allows authenticated invocations." and swagger.yaml (API gateway) uses such domain (or Assigned by Cloud Run https://backbank-_.a.run.app) as host
