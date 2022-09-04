@@ -88,31 +88,29 @@ const server = app.listen(port, async () => {
 
   var MasterCardAPI = locations.MasterCardAPI;
 
-  var consumerKey = process.env.MASTERCARD_CONSUMER_KEY; // You should copy this from "My Keys" on your project page e.g. UTfbhDCSeNYvJpLL5l028sWL9it739PYh6LU5lZja15xcRpY!fd209e6c579dc9d7be52da93d35ae6b6c167c174690b72fa
-  var keyStorePath = process.env.MASTERCARD_P12_BINARY; // e.g. /Users/yourname/project/sandbox.p12 | C:\Users\yourname\project\sandbox.p12
+  var consumerKey = /*process.env*/responsePayload.MASTERCARD_CONSUMER_KEY; // You should copy this from "My Keys" on your project page e.g. UTfbhDCSeNYvJpLL5l028sWL9it739PYh6LU5lZja15xcRpY!fd209e6c579dc9d7be52da93d35ae6b6c167c174690b72fa
+  var keyStorePath = responsePayload.MASTERCARD_P12_BINARY; // e.g. /Users/yourname/project/sandbox.p12 | C:\Users\yourname\project\sandbox.p12
   var keyAlias = "Passwordalias"; //"keyalias";   // For production: change this to the key alias you chose when you created your production key
   var keyPassword = "Passwordalias"; //"keystorepassword";   // For production: change this to the key alias you chose when you created your production key
 
   // You only need to do initialize MasterCardAPI once
   //
-  var authentication = new MasterCardAPI.OAuth(
-    consumerKey,
-    keyStorePath,
-    keyAlias,
-    keyPassword
-  );
   MasterCardAPI.init({
     sandbox: true,
     debug: true,
-    authentication: authentication
+    authentication: new MasterCardAPI.OAuth(
+      consumerKey,
+      keyStorePath,
+      keyAlias,
+      keyPassword
+    )
   }); //"im speculating like everyone else is sometime we prove a negative search warrant"
 
-  var requestData = {
+  locations.ATMLocations.query({
     PageOffset: "0",
     PageLength: "5",
     PostalCode: "11101"
-  };
-  locations.ATMLocations.query(requestData, function (error, data) {
+  }, function (error, data) {
     if (error) {
       err("HttpStatus: " + error.getHttpStatus());
       err("Message: " + error.getMessage());
