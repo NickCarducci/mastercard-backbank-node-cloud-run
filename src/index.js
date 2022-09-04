@@ -51,10 +51,10 @@ var locations = require("mastercard-locations");
 const port = 8080;
 const server = app.listen(port, async () => {
   const getSecret = async (key) => {
-    await client.accessSecretVersion({ name: `projects/vaumoney/secrets/${key}/version/latest` }); //versionname
+    await client.accessSecretVersion({ name: `projects/vaumoney/secrets/${key}/versions/latest` }); //versionname
     if (!accessResponse) return console.log("no accessResponse");
     if (!accessResponse.payload) return console.log("no accessResponse payload");
-    // Access the secret.
+    // Access the secret.https://stackoverflow.com/questions/61282732/cant-access-secret-in-gcp-secret-manager
     console.info(`Captured secret: ${accessResponse.payload}`);
     //https://cloud.google.com/secret-manager/docs/reference/libraries#client-libraries-install-nodejs
     return accessResponse.payload.data.toString("utf8");
