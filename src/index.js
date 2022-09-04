@@ -50,7 +50,17 @@ app.get("/", (req, res) => {
 var locations = require("mastercard-locations");
 const port = 8080;
 const server = app.listen(port, async () => {
-  const accessResponse = await client.accessSecretVersion({ name: "1" }); //versionname
+  const getSecret = async (key) => {
+    await client.accessSecretVersion({ name: `projects/vaumoney/secrets/${key}/version/latest` }); //versionname
+    if (!accessResponse) return console.log("no accessResponse");
+    if (!accessResponse.payload) return console.log("no accessResponse payload");
+    // Access the secret.
+    console.info(`Captured secret: ${accessResponse.payload}`);
+    //https://cloud.google.com/secret-manager/docs/reference/libraries#client-libraries-install-nodejs
+    return accessResponse.payload.data.toString("utf8");
+  }
+  const MASTERCARD_CONSUMER_KEY = await getSecret("MASTERCARD_CONSUMER_KEY")
+  const MASTERCARD_P12_BINARY = await getSecret("MASTERCARD_P12_BINARY")
   //secret
   /*
   const newpurpose = (func, sng) => {
@@ -79,30 +89,18 @@ const server = app.listen(port, async () => {
   version = newpurpose(version, "version")
   console.info(`Captured secret version ${versionname.name}`);*/
 
-  // Access the secret.
-  if (!accessResponse) return console.log("no accessResponse");
-  if (!accessResponse.payload) return console.log("no accessResponse payload");
-  const responsePayload = accessResponse.payload.data.toString("utf8");
-  console.info(`Captured secret: ${responsePayload}`);
-  //https://cloud.google.com/secret-manager/docs/reference/libraries#client-libraries-install-nodejs
 
   var MasterCardAPI = locations.MasterCardAPI;
 
-  var consumerKey = /*process.env*/responsePayload.MASTERCARD_CONSUMER_KEY; // You should copy this from "My Keys" on your project page e.g. UTfbhDCSeNYvJpLL5l028sWL9it739PYh6LU5lZja15xcRpY!fd209e6c579dc9d7be52da93d35ae6b6c167c174690b72fa
-  var keyStorePath = responsePayload.MASTERCARD_P12_BINARY; // e.g. /Users/yourname/project/sandbox.p12 | C:\Users\yourname\project\sandbox.p12
-  var keyAlias = "Passwordalias"; //"keyalias";   // For production: change this to the key alias you chose when you created your production key
-  var keyPassword = "Passwordalias"; //"keystorepassword";   // For production: change this to the key alias you chose when you created your production key
-
-  // You only need to do initialize MasterCardAPI once
-  //
+  //init once
   MasterCardAPI.init({
     sandbox: true,
     debug: true,
     authentication: new MasterCardAPI.OAuth(
-      consumerKey,
-      keyStorePath,
-      keyAlias,
-      keyPassword
+      MASTERCARD_CONSUMER_KEY,/*process.env*///consumerKey, // You should copy this from "My Keys" on your project page e.g. UTfbhDCSeNYvJpLL5l028sWL9it739PYh6LU5lZja15xcRpY!fd209e6c579dc9d7be52da93d35ae6b6c167c174690b72fa
+      MASTERCARD_P12_BINARY,//keyStorePath,// e.g. /Users/yourname/project/sandbox.p12 | C:\Users\yourname\project\sandbox.p12
+      "Passwordalias", //keyAlias,"keyalias";   // For production: change this to the key alias you chose when you created your production key
+      "Passwordalias" //keyPassword,"keystorepassword";   // For production: change this to the key alias you chose when you created your production key
     )
   }); //"im speculating like everyone else is sometime we prove a negative search warrant"
 
