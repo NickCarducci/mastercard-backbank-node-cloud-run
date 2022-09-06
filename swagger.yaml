@@ -14,7 +14,8 @@ consumes:
 produces:
 - application/json
 x-google-backend:
-  address: https://vault-co.in # APP_URL
+  address: https://backbank-ab4vy6yptq-uc.a.run.app # https://vault-co.in # APP_URL
+  jwt_audience: https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com/vaumoney
 paths:
   /:
     get:
@@ -143,7 +144,7 @@ securityDefinitions: #https://cloud.google.com/api-gateway/docs/authenticating-u
     x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com"
     x-google-audiences: "vaumoney"
 security:
-  - firebase: [read]
+  - firebase: []
 
 #definitions:v3
   #String:
