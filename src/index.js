@@ -24,6 +24,9 @@ const client = new SecretManagerServiceClient();
 //https://cloud.google.com/load-balancing/docs/https/setting-up-https-serverless
 const express = require("express");
 
+
+const { OAuth2Client } = require('google-auth-library');
+const authClient = new OAuth2Client();
 const app = express();
 //var router = express.Router();get("/")
 //https://stackoverflow.com/questions/19313016/catch-all-route-except-for-login
@@ -70,7 +73,6 @@ app.all("*", async (req, res) => {
       return 'Unauthorized', 401*/
 
   res.set("Access-Control-Allow-Headers", "Content-Type");
-  res.set("Content-Type", "Application/JSON");
   res.set("Content-Type", "Application/JSON");
   var origin = req.get("Origin");
   var allowedOrigins = [
