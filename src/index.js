@@ -25,10 +25,10 @@ const getSecret = async (key) => {
   try {
     accessResponse = await client.accessSecretVersion({ name: `projects/vaumoney/secrets/${key}/versions/latest` }); //versionname
   } catch (e) {
-    return console.log(e);
+    throw (e);//return console.log
   };
-  if (!accessResponse) return console.log("no accessResponse");
-  if (!accessResponse.payload) return console.log("no accessResponse payload");
+  if (!accessResponse) throw ("no accessResponse");
+  if (!accessResponse.payload) throw ("no accessResponse payload");
   // Access the secret.https://stackoverflow.com/questions/61282732/cant-access-secret-in-gcp-secret-manager
   console.info(`Captured secret: ${accessResponse.payload}`);
   //https://cloud.google.com/secret-manager/docs/reference/libraries#client-libraries-install-nodejs
@@ -41,7 +41,7 @@ const express = require("express");
 //const myRefreshToken = '...'; // Get refresh token from OAuth2 flow
 //import { initializeApp } from 'firebase/app';
 const admin = require('firebase-admin');
-const app = express();
+const app = express();//hey guyses, hyey
 //var router = express.Router();get("/")
 //https://stackoverflow.com/questions/19313016/catch-all-route-except-for-login
 app.all("*", async (req, res) => {
@@ -118,7 +118,7 @@ app.all("*", async (req, res) => {
 
       const MASTERCARD_CONSUMER_KEY = await getSecret("MASTERCARD_CONSUMER_KEY")
       const MASTERCARD_P12_BINARY = await getSecret("MASTERCARD_P12_BINARY")
-      res.send("Hello World!");
+      //res.send("Hello World!");
       var MasterCardAPI = locations.MasterCardAPI;
 
       //init once
@@ -204,6 +204,7 @@ app.all("*", async (req, res) => {
       }
     }
   }
+  res.send("Hello World!");
 }).on('error', (e) => {
   //https://expressjs.com/en/4x/api.html#req
   console.log(`Error route ${req.params} happened: `, e.message)
