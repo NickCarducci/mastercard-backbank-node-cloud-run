@@ -26,7 +26,7 @@ const express = require("express");
 const app = express();
 //var router = express.Router();get("/")
 //https://stackoverflow.com/questions/19313016/catch-all-route-except-for-login
-app.all("*", (req, res) => {
+app.all("*", async (req, res) => {
   res.set("Access-Control-Allow-Headers", "Content-Type");
   res.set("Content-Type", "Application/JSON");
   res.set("Content-Type", "Application/JSON");
