@@ -99,6 +99,7 @@ app.all("*", async (req, res) => {
   if not claims:
       return 'Unauthorized', 401*/
 
+  res.set("Access-Control-Allow-Credentials", true);
   res.set("Access-Control-Allow-Headers", "Content-Type");
   res.set("Content-Type", "Application/JSON");
   var origin = req.get("Origin");
