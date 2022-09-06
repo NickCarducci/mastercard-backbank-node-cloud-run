@@ -13,6 +13,7 @@
 // limitations under the License.
 
 //'use strict';
+// idToken comes from the client app
 const args = process.argv.slice(2);
 //https://github.com/googleapis/nodejs-secret-manager/blob/main/samples/getSecret.js
 //async function main(name = 'projects/my-project/secrets/my-secret') {
@@ -27,6 +28,47 @@ const app = express();
 //var router = express.Router();get("/")
 //https://stackoverflow.com/questions/19313016/catch-all-route-except-for-login
 app.all("*", async (req, res) => {
+  // Verify that the request originates from the application.
+  //https://github.com/GoogleCloudPlatform/nodejs-docs-samples/blob/783bb8a8f0b5ee7480bb991e3a89300a5eb36e84/appengine/pubsub/app.js#L94
+  if (req.query.token !== PUBSUB_VERIFICATION_TOKEN) {
+    res.status(400).send('Invalid request');
+    return;
+  }
+
+  // Verify that the push request originates from Cloud Pub/Sub.
+  try {
+    // Get the Cloud Pub/Sub-generated JWT in the "Authorization" header.
+
+    // Verify and decode the JWT.
+    // Note: For high volume push requests, it would save some network
+    // overhead if you verify the tokens offline by decoding them using
+    // Google's Public Cert; caching already seen tokens works best when
+    // a large volume of messages have prompted a single push server to
+    // handle them, in which case they would all share the same token for
+    // a limited time window.
+    const ticket = await authClient.verifyIdToken({
+      idToken: req.header('Authorization').match(/Bearer (.*)/),
+      audience: 'example.com',
+    });
+
+    const claim = ticket.getPayload();
+
+    // IMPORTANT: you should validate claim details not covered
+    // by signature and audience verification above, including:
+    //   - Ensure that `claim.email` is equal to the expected service
+    //     account set up in the push subscription settings.
+    //   - Ensure that `claim.email_verified` is set to true.
+
+    claims.push(claim);
+  } catch (e) {
+    res.status(400).send('Invalid token');
+    return;
+  }
+  /*claims = google.oauth2.request.headers.Authorization.verify_firebase_token(
+      id_token, HTTP_REQUEST, audience=os.environ.get('GOOGLE_CLOUD_PROJECT'))
+  if not claims:
+      return 'Unauthorized', 401*/
+
   res.set("Access-Control-Allow-Headers", "Content-Type");
   res.set("Content-Type", "Application/JSON");
   res.set("Content-Type", "Application/JSON");
@@ -158,7 +200,7 @@ const port = 8080;//https://cloud.google.com/run/docs/tutorials/identity-platfor
 //roles/secretmanager.secretAccessor
 //https://cloud.google.com/secret-manager/docs/access-control
 //firebase-adminsdk-afvoy@vaumoney.iam.gserviceaccount.com	
-const server = app.listen(port, async () => {
+const server = app.listen(port, () => {
 
   console.log("listening on port %s.\n", server.address().port);
 }).on('error', (e) => {
