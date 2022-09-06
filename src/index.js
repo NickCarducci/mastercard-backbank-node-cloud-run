@@ -20,6 +20,20 @@ const args = process.argv.slice(2);
 const { SecretManagerServiceClient } = require("@google-cloud/secret-manager");
 const client = new SecretManagerServiceClient();
 
+const getSecret = async (key) => {
+  var accessResponse = null;
+  try {
+    accessResponse = await client.accessSecretVersion({ name: `projects/vaumoney/secrets/${key}/versions/latest` }); //versionname
+  } catch (e) {
+    return console.log(e);
+  };
+  if (!accessResponse) return console.log("no accessResponse");
+  if (!accessResponse.payload) return console.log("no accessResponse payload");
+  // Access the secret.https://stackoverflow.com/questions/61282732/cant-access-secret-in-gcp-secret-manager
+  console.info(`Captured secret: ${accessResponse.payload}`);
+  //https://cloud.google.com/secret-manager/docs/reference/libraries#client-libraries-install-nodejs
+  return accessResponse.payload.data.toString("utf8");
+}
 //https://cloud.google.com/load-balancing/docs/https/setting-up-https-serverless#update_dns
 //https://cloud.google.com/load-balancing/docs/https/setting-up-https-serverless
 const express = require("express");
@@ -33,10 +47,10 @@ const app = express();
 app.all("*", async (req, res) => {
   // Verify that the request originates from the application.
   //https://github.com/GoogleCloudPlatform/nodejs-docs-samples/blob/783bb8a8f0b5ee7480bb991e3a89300a5eb36e84/appengine/pubsub/app.js#L94
-  if (req.query.token !== PUBSUB_VERIFICATION_TOKEN) {
+  /*if (req.query.token !== PUBSUB_VERIFICATION_TOKEN) {
     res.status(400).send('Invalid request');
     return;
-  }
+  }*/
 
   // Verify that the push request originates from Cloud Pub/Sub.
   try {
@@ -49,9 +63,10 @@ app.all("*", async (req, res) => {
     // a large volume of messages have prompted a single push server to
     // handle them, in which case they would all share the same token for
     // a limited time window.
+      const OAUTH_CLIENT_ID = await getSecret("OAUTH_CLIENT_ID")
     const ticket = await authClient.verifyIdToken({
       idToken: req.header('Authorization').match(/Bearer (.*)/),
-      audience: 'example.com',
+      audience: OAUTH_CLIENT_ID//'example.com',
     });
 
     const claim = ticket.getPayload();
@@ -89,20 +104,6 @@ app.all("*", async (req, res) => {
       return res.status(200).send({});
     } else {
 
-      const getSecret = async (key) => {
-        var accessResponse = null;
-        try {
-          accessResponse = await client.accessSecretVersion({ name: `projects/vaumoney/secrets/${key}/versions/latest` }); //versionname
-        } catch (e) {
-          return console.log(e);
-        };
-        if (!accessResponse) return console.log("no accessResponse");
-        if (!accessResponse.payload) return console.log("no accessResponse payload");
-        // Access the secret.https://stackoverflow.com/questions/61282732/cant-access-secret-in-gcp-secret-manager
-        console.info(`Captured secret: ${accessResponse.payload}`);
-        //https://cloud.google.com/secret-manager/docs/reference/libraries#client-libraries-install-nodejs
-        return accessResponse.payload.data.toString("utf8");
-      }
       const MASTERCARD_CONSUMER_KEY = await getSecret("MASTERCARD_CONSUMER_KEY")
       const MASTERCARD_P12_BINARY = await getSecret("MASTERCARD_P12_BINARY")
       res.send("Hello World!");
