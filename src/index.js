@@ -54,6 +54,15 @@ app.all("*", async (req, res) => {
 
   // Verify that the push request originates from Cloud Pub/Sub.
   try {
+    const SERVICE_ACCOUNT_CERT = await getSecret("SERVICE_ACCOUNT_CERT");
+    const firebase = admin.initializeApp({
+      credential: admin.credential.cert(SERVICE_ACCOUNT_CERT),//refreshToken(myRefreshToken),
+      databaseURL: 'https://vaumoney.firebaseio.com',
+      projectId: 'vaumoney',//<DATABASE_NAME>==PROJECT_ID
+    });
+    //const firebase = initializeApp(defaultAppConfig);
+
+    console.log(firebase.name);  // '[DEFAULT]'
     // Get the Cloud Pub/Sub-generated JWT in the "Authorization" header.
 
     // Verify and decode the JWT.
@@ -208,15 +217,6 @@ const port = 8080;//https://cloud.google.com/run/docs/tutorials/identity-platfor
 //firebase-adminsdk-afvoy@vaumoney.iam.gserviceaccount.com	
 const server = app.listen(port, async () => {
   console.log("listening on port %s.\n", server.address().port);
-  const SERVICE_ACCOUNT_CERT = await getSecret("SERVICE_ACCOUNT_CERT");
-  const firebase = admin.initializeApp({
-    credential: admin.credential.cert(SERVICE_ACCOUNT_CERT),//refreshToken(myRefreshToken),
-    databaseURL: 'https://vaumoney.firebaseio.com',
-    projectId: 'vaumoney',//<DATABASE_NAME>==PROJECT_ID
-  });
-  //const firebase = initializeApp(defaultAppConfig);
-
-  console.log(firebase.name);  // '[DEFAULT]'
 }).on('error', (e) => {
   console.log('Error listen happened: ', e.message)
 });
