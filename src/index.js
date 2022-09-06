@@ -19,6 +19,154 @@ const args = process.argv.slice(2);
 const { SecretManagerServiceClient } = require("@google-cloud/secret-manager");
 const client = new SecretManagerServiceClient();
 
+//https://cloud.google.com/load-balancing/docs/https/setting-up-https-serverless#update_dns
+//https://cloud.google.com/load-balancing/docs/https/setting-up-https-serverless
+const express = require("express");
+
+const app = express();
+//var router = express.Router();get("/")
+//https://stackoverflow.com/questions/19313016/catch-all-route-except-for-login
+app.all("*", (req, res) => {
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+  res.set("Content-Type", "Application/JSON");
+  res.set("Content-Type", "Application/JSON");
+  var origin = req.get("Origin");
+  var allowedOrigins = [
+    "https://www.yoursite.blah",
+    "https://yoursite2.blah"
+  ];
+  if (allowedOrigins.indexOf(origin) > -1) {
+    // Origin Allowed!!
+    res.set("Access-Control-Allow-Origin", origin);
+    if (req.method === "OPTIONS") {
+      // Method accepted for next request
+      res.set("Access-Control-Allow-Methods", "POST");
+      //SEND or end
+      return res.status(200).send({});
+    } else {
+
+      const getSecret = async (key) => {
+        var accessResponse = null;
+        try {
+          accessResponse = await client.accessSecretVersion({ name: `projects/vaumoney/secrets/${key}/versions/latest` }); //versionname
+        } catch (e) {
+          return console.log(e);
+        };
+        if (!accessResponse) return console.log("no accessResponse");
+        if (!accessResponse.payload) return console.log("no accessResponse payload");
+        // Access the secret.https://stackoverflow.com/questions/61282732/cant-access-secret-in-gcp-secret-manager
+        console.info(`Captured secret: ${accessResponse.payload}`);
+        //https://cloud.google.com/secret-manager/docs/reference/libraries#client-libraries-install-nodejs
+        return accessResponse.payload.data.toString("utf8");
+      }
+      const MASTERCARD_CONSUMER_KEY = await getSecret("MASTERCARD_CONSUMER_KEY")
+      const MASTERCARD_P12_BINARY = await getSecret("MASTERCARD_P12_BINARY")
+      res.send("Hello World!");
+      var MasterCardAPI = locations.MasterCardAPI;
+
+      //init once
+      MasterCardAPI.init({
+        sandbox: true,
+        debug: true,
+        authentication: new MasterCardAPI.OAuth(
+          MASTERCARD_CONSUMER_KEY,/*process.env*///consumerKey, // You should copy this from "My Keys" on your project page e.g. UTfbhDCSeNYvJpLL5l028sWL9it739PYh6LU5lZja15xcRpY!fd209e6c579dc9d7be52da93d35ae6b6c167c174690b72fa
+          MASTERCARD_P12_BINARY,//keyStorePath,// e.g. /Users/yourname/project/sandbox.p12 | C:\Users\yourname\project\sandbox.p12
+          "Passwordalias", //keyAlias,"keyalias";   // For production: change this to the key alias you chose when you created your production key
+          "Passwordalias" //keyPassword,"keystorepassword";   // For production: change this to the key alias you chose when you created your production key
+        )
+      }); //"im speculating like everyone else is sometime we prove a negative search warrant"
+
+      locations.ATMLocations.query({
+        PageOffset: "0",
+        PageLength: "5",
+        PostalCode: "11101"
+      }, function (error, data) {
+        if (error) {
+          err("HttpStatus: " + error.getHttpStatus());
+          err("Message: " + error.getMessage());
+          err("ReasonCode: " + error.getReasonCode());
+          err("Source: " + error.getSource());
+          err(error);
+        } else {
+          out(data.Atms.PageOffset); //-->0
+          out(data.Atms.TotalCount); //-->26
+          out(data.Atms.Atm[0].Location.Name); //-->Sandbox ATM Location 1
+          out(data.Atms.Atm[0].Location.Distance); //-->0.93
+          out(data.Atms.Atm[0].Location.DistanceUnit); //-->MILE
+          out(data.Atms.Atm[0].Location.Address.Line1); //-->4201 Leverton Cove Road
+          out(data.Atms.Atm[0].Location.Address.Line2); //-->
+          out(data.Atms.Atm[0].Location.Address.City); //-->SPRINGFIELD
+          out(data.Atms.Atm[0].Location.Address.PostalCode); //-->11101
+          out(data.Atms.Atm[0].Location.Address.CountrySubdivision.Name); //-->UYQQQQ
+          out(data.Atms.Atm[0].Location.Address.CountrySubdivision.Code); //-->QQ
+          out(data.Atms.Atm[0].Location.Address.Country.Name); //-->UYQQQRR
+          out(data.Atms.Atm[0].Location.Address.Country.Code); //-->UYQ
+          out(data.Atms.Atm[0].Location.Point.Latitude); //-->38.76006576913497
+          out(data.Atms.Atm[0].Location.Point.Longitude); //-->-90.74615107952418
+          out(data.Atms.Atm[0].Location.LocationType.Type); //-->OTHER
+          out(data.Atms.Atm[0].HandicapAccessible); //-->NO
+          out(data.Atms.Atm[0].Camera); //-->NO
+          out(data.Atms.Atm[0].Availability); //-->UNKNOWN
+          out(data.Atms.Atm[0].AccessFees); //-->UNKNOWN
+          out(data.Atms.Atm[0].Owner); //-->Sandbox ATM 1
+          out(data.Atms.Atm[0].SharedDeposit); //-->NO
+          out(data.Atms.Atm[0].SurchargeFreeAlliance); //-->NO
+          out(data.Atms.Atm[0].SurchargeFreeAllianceNetwork); //-->DOES_NOT_PARTICIPATE_IN_SFA
+          out(data.Atms.Atm[0].Sponsor); //-->Sandbox
+          out(data.Atms.Atm[0].SupportEMV); //-->1
+          out(data.Atms.Atm[0].InternationalMaestroAccepted); //-->1
+          //This sample shows looping through Atms.Atm
+          console.log("This sample shows looping through Atms.Atm");
+          data.Atms.Atm.forEach(function (item) {
+            outObj(item, "Location");
+            outObj(item, "HandicapAccessible");
+            outObj(item, "Camera");
+            outObj(item, "Availability");
+            outObj(item, "AccessFees");
+            outObj(item, "Owner");
+            outObj(item, "SharedDeposit");
+            outObj(item, "SurchargeFreeAlliance");
+            outObj(item, "SurchargeFreeAllianceNetwork");
+            outObj(item, "Sponsor");
+            outObj(item, "SupportEMV");
+            outObj(item, "InternationalMaestroAccepted");
+          });
+        }
+      });
+
+      function out(value) {
+        console.log(value);
+      }
+
+      function outObj(item, key) {
+        console.log(item[key]);
+      }
+
+      function err(value) {
+        console.error(value);
+      }
+    }
+  }
+}).on('error', (e) => {
+  //https://expressjs.com/en/4x/api.html#req
+  console.log(`Error route ${req.params} happened: `, e.message)
+});;
+//"[this could get complicated], oh yeah" kramer getting into media and politics
+var locations = require("mastercard-locations");
+const port = 8080;//https://cloud.google.com/run/docs/tutorials/identity-platform
+//https://cloud.google.com/run/docs/troubleshooting#unauthorized-client
+//roles/secretmanager.secretAccessor
+//https://cloud.google.com/secret-manager/docs/access-control
+//firebase-adminsdk-afvoy@vaumoney.iam.gserviceaccount.com	
+const server = app.listen(port, async () => {
+
+  console.log("listening on port %s.\n", server.address().port);
+}).on('error', (e) => {
+  console.log('Error listen happened: ', e.message)
+});
+
+module.exports = app;
+//prosecuted bully
 //async function getSecret() {
 //const [secret] = await
 /*client.getSecret({
@@ -37,149 +185,30 @@ console.info(`Found secret ${secret.name} (${policy})`);*/
 //main(...args).catch(console.error);
 //secret service roles logs
 // chnge IP external static to load balance vm
-//https://cloud.google.com/load-balancing/docs/https/setting-up-https-serverless#update_dns
-//https://cloud.google.com/load-balancing/docs/https/setting-up-https-serverless
-const express = require("express");
-
-const app = express();
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
-var locations = require("mastercard-locations");
-const port = 8080;
-const server = app.listen(port, async () => {
-  const getSecret = async (key) => {
-    var accessResponse = null;
-    try {
-      accessResponse = await client.accessSecretVersion({ name: `projects/vaumoney/secrets/${key}/versions/latest` }); //versionname
-    } catch (e) {
-      return console.log(e);
-    };
-    if (!accessResponse) return console.log("no accessResponse");
-    if (!accessResponse.payload) return console.log("no accessResponse payload");
-    // Access the secret.https://stackoverflow.com/questions/61282732/cant-access-secret-in-gcp-secret-manager
-    console.info(`Captured secret: ${accessResponse.payload}`);
-    //https://cloud.google.com/secret-manager/docs/reference/libraries#client-libraries-install-nodejs
-    return accessResponse.payload.data.toString("utf8");
-  }
-  const MASTERCARD_CONSUMER_KEY = await getSecret("MASTERCARD_CONSUMER_KEY")
-  const MASTERCARD_P12_BINARY = await getSecret("MASTERCARD_P12_BINARY")
   //secret
-  /*
-  const newpurpose = (func, sng) => {
-    return {
-      name: func().name,
-    }[sng + "name"]
-  }*/
-  /**
-   *
-   * Script-Name: atm_locations
-   * "[Im economist, yet]..here is how I want you to think about the economy."
-   */
-  /*const secret = async () => client.getSecret({
-    name: args
-  });
-  //const policy = secret.replication.replication;
-  //console.info(`Found secret ${secret.name} (${policy})`);
-  // Add a version with a payload onto the secret.
-  var version = async () => await client.addSecretVersion({
-    parent: secret().name,
-    payload: {
-      data: Buffer.from(payload, 'utf8'),
-    },
-  });
-  //"lazy selfish aabove"
-  version = newpurpose(version, "version")
-  console.info(`Captured secret version ${versionname.name}`);*/
-
-
-  var MasterCardAPI = locations.MasterCardAPI;
-
-  //init once
-  MasterCardAPI.init({
-    sandbox: true,
-    debug: true,
-    authentication: new MasterCardAPI.OAuth(
-      MASTERCARD_CONSUMER_KEY,/*process.env*///consumerKey, // You should copy this from "My Keys" on your project page e.g. UTfbhDCSeNYvJpLL5l028sWL9it739PYh6LU5lZja15xcRpY!fd209e6c579dc9d7be52da93d35ae6b6c167c174690b72fa
-      MASTERCARD_P12_BINARY,//keyStorePath,// e.g. /Users/yourname/project/sandbox.p12 | C:\Users\yourname\project\sandbox.p12
-      "Passwordalias", //keyAlias,"keyalias";   // For production: change this to the key alias you chose when you created your production key
-      "Passwordalias" //keyPassword,"keystorepassword";   // For production: change this to the key alias you chose when you created your production key
-    )
-  }); //"im speculating like everyone else is sometime we prove a negative search warrant"
-
-  locations.ATMLocations.query({
-    PageOffset: "0",
-    PageLength: "5",
-    PostalCode: "11101"
-  }, function (error, data) {
-    if (error) {
-      err("HttpStatus: " + error.getHttpStatus());
-      err("Message: " + error.getMessage());
-      err("ReasonCode: " + error.getReasonCode());
-      err("Source: " + error.getSource());
-      err(error);
-    } else {
-      out(data.Atms.PageOffset); //-->0
-      out(data.Atms.TotalCount); //-->26
-      out(data.Atms.Atm[0].Location.Name); //-->Sandbox ATM Location 1
-      out(data.Atms.Atm[0].Location.Distance); //-->0.93
-      out(data.Atms.Atm[0].Location.DistanceUnit); //-->MILE
-      out(data.Atms.Atm[0].Location.Address.Line1); //-->4201 Leverton Cove Road
-      out(data.Atms.Atm[0].Location.Address.Line2); //-->
-      out(data.Atms.Atm[0].Location.Address.City); //-->SPRINGFIELD
-      out(data.Atms.Atm[0].Location.Address.PostalCode); //-->11101
-      out(data.Atms.Atm[0].Location.Address.CountrySubdivision.Name); //-->UYQQQQ
-      out(data.Atms.Atm[0].Location.Address.CountrySubdivision.Code); //-->QQ
-      out(data.Atms.Atm[0].Location.Address.Country.Name); //-->UYQQQRR
-      out(data.Atms.Atm[0].Location.Address.Country.Code); //-->UYQ
-      out(data.Atms.Atm[0].Location.Point.Latitude); //-->38.76006576913497
-      out(data.Atms.Atm[0].Location.Point.Longitude); //-->-90.74615107952418
-      out(data.Atms.Atm[0].Location.LocationType.Type); //-->OTHER
-      out(data.Atms.Atm[0].HandicapAccessible); //-->NO
-      out(data.Atms.Atm[0].Camera); //-->NO
-      out(data.Atms.Atm[0].Availability); //-->UNKNOWN
-      out(data.Atms.Atm[0].AccessFees); //-->UNKNOWN
-      out(data.Atms.Atm[0].Owner); //-->Sandbox ATM 1
-      out(data.Atms.Atm[0].SharedDeposit); //-->NO
-      out(data.Atms.Atm[0].SurchargeFreeAlliance); //-->NO
-      out(data.Atms.Atm[0].SurchargeFreeAllianceNetwork); //-->DOES_NOT_PARTICIPATE_IN_SFA
-      out(data.Atms.Atm[0].Sponsor); //-->Sandbox
-      out(data.Atms.Atm[0].SupportEMV); //-->1
-      out(data.Atms.Atm[0].InternationalMaestroAccepted); //-->1
-      //This sample shows looping through Atms.Atm
-      console.log("This sample shows looping through Atms.Atm");
-      data.Atms.Atm.forEach(function (item) {
-        outObj(item, "Location");
-        outObj(item, "HandicapAccessible");
-        outObj(item, "Camera");
-        outObj(item, "Availability");
-        outObj(item, "AccessFees");
-        outObj(item, "Owner");
-        outObj(item, "SharedDeposit");
-        outObj(item, "SurchargeFreeAlliance");
-        outObj(item, "SurchargeFreeAllianceNetwork");
-        outObj(item, "Sponsor");
-        outObj(item, "SupportEMV");
-        outObj(item, "InternationalMaestroAccepted");
-      });
-    }
-  });
-
-  function out(value) {
-    console.log(value);
-  }
-
-  function outObj(item, key) {
-    console.log(item[key]);
-  }
-
-  function err(value) {
-    console.error(value);
-  }
-  console.log("listening on port %s.\n", server.address().port);
+/*invid
+const newpurpose = (func, sng) => {
+  return {
+    name: func().name,
+  }[sng + "name"] "work foress implied or promised-given"
+}*/
+/**
+ *
+ * Script-Name: atm_locations
+ * "[Im economist, yet]..here is how I want you to think about the economy."
+ */
+/*const secret = async () => client.getSecret({
+  name: args
 });
-
-module.exports = app;
-//prosecuted bully
+//const policy = secret.replication.replication;
+//console.info(`Found secret ${secret.name} (${policy})`);
+// Add a version with a payload onto the secret.
+var version = async () => await client.addSecretVersion({
+  parent: secret().name,
+  payload: {
+    data: Buffer.from(payload, 'utf8'),
+  },
+});
+//"lazy selfish aabove"
+version = newpurpose(version, "version")
+console.info(`Captured secret version ${versionname.name}`);*/
