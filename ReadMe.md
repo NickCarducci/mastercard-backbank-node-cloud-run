@@ -55,3 +55,12 @@ instance load balancer NEG Zonal for other uses than regional backend LB (premiu
 with cloud run vs. ...compute engine,virtual machine,NEG
 
 > Cloud run (custom domain): "None of the URLs above are directly accessible because this service only allows authenticated invocations." and swagger.yaml (API gateway) uses such domain (or Assigned by Cloud Run https://backbank-_.a.run.app) as host
+
+
+[endpoints](https://stackoverflow.com/questions/63389913/how-can-my-cloud-run-accept-traffic-only-from-cloud-scheduler-and-google-directo)
+
+who would attack an authorization endpoint if they will always be rejected?
+
+gcloud [endpoints services deploy](https://www.reddit.com/r/googlecloud/comments/exl961/does_cloud_endpoints_provide_some_sort_of_dos/) swagger.yaml --project=vaumoney && `gcloud services enable vault-co.in`
+
+[ESP or python](https://cloud.google.com/endpoints/docs/openapi/set-up-cloud-run-espv2)
