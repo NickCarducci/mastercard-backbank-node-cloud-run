@@ -82,6 +82,9 @@ app.all("*", async (req, res) => {
     });//https://support.google.com/cloud/answer/6158849?hl=en#zippy=%2Cauthorized-domains%2Cpublic-and-internal-applications%2Cweb-applications
 
     const claim = ticket.getPayload();
+    //not onlyis it not clear it is to be determined in court by dipole of 
+    //Are “other hands” not rather known as “dipoles” to economists?
+
 
     // IMPORTANT: you should validate claim details not covered
     // by signature and audience verification above, including:

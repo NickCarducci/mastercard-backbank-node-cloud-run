@@ -1,4 +1,4 @@
-## [hibit-client](https://github.com/NickCarducci/hibit-client)
+## [hibit-client](https://github.com/NickCarducci/hibit-client) firebase services via cloud run gateway and endpoints
 
 [ATM location intelligence](https://developer.mastercard.com/locations/documentation/sdk-reference/)
 
@@ -61,6 +61,28 @@ with cloud run vs. ...compute engine,virtual machine,NEG
 
 who would attack an authorization endpoint if they will always be rejected?
 
+>deploy, enable, build, deploy service *title* mastercard-backbank, *name* and *project ID*, the *host*, **in fact**, (all do so under) vault-co.in
+
 gcloud [endpoints services deploy](https://www.reddit.com/r/googlecloud/comments/exl961/does_cloud_endpoints_provide_some_sort_of_dos/) swagger.yaml --project=vaumoney && `gcloud services enable vault-co.in`
 
 [ESP or python](https://cloud.google.com/endpoints/docs/openapi/set-up-cloud-run-espv2)
+
+#### [Building a new ESPv2 image](https://cloud.google.com/endpoints/docs/openapi/set-up-cloud-run-espv2#configure_esp)
+
+DEPLOYMENT HISTORY 2022-09-06r0 CONFIG_ID
+
+`chmod +x gcloud_build_image && ./gcloud_build_image -s vault-co.in -c 2022-09-06r0 -p vaumoney`
+
+#### Deploying the ESPv2 container
+
+*live between their own means*, their needs; that means, welfare for the disabled, by developmental-ability, or injury
+
+individual retirement is for naught when "commerce-expiry", not an event ever sensible
+
+the taged url host, path, ex-protocol 5x: "gcr.io/project_id/endpoints-runtime-serverless:version-host-config_id"
+
+`gcloud run deploy mastercard-backbank --image="gcr.io/vaumoney/endpoints-runtime-serverless:2.38.0-vault-co.in-2022-09-06r0" --set-env-vars=ESPv2_ARGS=--cors_preset=basic --allow-unauthenticated --platform managed --project vaumoney`
+
+>If you want ESPv2 to manage access, use the --allow-unauthenticated flag to ensure that ESPv2 verifies the JWT token. If the flag is not used, the JWT token is intercepted and verified by Cloud Run access control IAM server. Since the IAM and ESPv2 use the same Authorization header, they don't work together, make sure only use one of them. Recommend to use IAM instead of ESPv2 for managing access.
+
+look at me, I'm [donkey](https://cloud.google.com/endpoints/docs/openapi/openapi-extensions)

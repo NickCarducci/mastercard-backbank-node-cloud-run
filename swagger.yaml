@@ -1,21 +1,36 @@
 # openapi2-run.yaml
 swagger: '2.0'
-info:
+info: # >1 API/service, specify names in the x-google-api-name OpenAPI document extension.
   title: mastercard-backbank # API_ID optional-string
   #https://cloud.google.com/api-gateway/docs/get-started-cloud-run
   description: node cloud run api mastercard p.12 customer keys # Sample API on API Gateway with a Cloud Run backend
   version: 0.0.1
 host: "vault-co.in"
+x-google-endpoints:
+- name: "vault-co.in"
+  allowCors: True
 basePath: "/" # https://stackoverflow.com/questions/71258737/making-a-cloud-firestore-rest-api-call-through-cloud-endpoints
+#When the basePath property is configured in the service configuration as well, 
+#this header applies only to URL paths that are prefixed by the basePath property value. 
+#URLs that aren't part of the basePath aren't passed through regardless of the x-google-allow property.
+quota: # https://cloud.google.com/endpoints/docs/openapi/openapi-extensions#x-google-quota
+  limits:
+    - name: read-requests-limit
+      metric: read-requests
+      unit: 1/min/vaumoney
+      values:
+        STANDARD: 50
 schemes:
 - https
 consumes:
 - application/json
 produces:
 - application/json
+x-google-allow: all
 x-google-backend:
   address: https://backbank-ab4vy6yptq-uc.a.run.app # https://vault-co.in # APP_URL
-  jwt_audience: https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com/vaumoney
+  protocol: h2
+  #jwt_audience: https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com/vaumoney
 paths:
   /:
     get:
@@ -128,7 +143,7 @@ paths:
           #schema:
             #type: string
 securityDefinitions: #https://cloud.google.com/api-gateway/docs/authenticating-users-firebase
-  firebase:
+  bearer: # https://cloud.google.com/endpoints/docs/openapi/openapi-extensions
     authorizationUrl: "" # empty for firebase frm bearer Authorization?
     flow: "implicit"
     type: "oauth2"
@@ -140,9 +155,13 @@ securityDefinitions: #https://cloud.google.com/api-gateway/docs/authenticating-u
           #write: Grants write access
           #admin: Grants access to admin operations
     # Replace vaumoney with your project ID # X-Apigateway-Api-Userinfo
-    x-google-issuer: "https://securetoken.google.com/vaumoney"
-    x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com"
+    #x-google-issuer: "https://securetoken.google.com/vaumoney"
+    x-google-issuer: "firebase-adminsdk-afvoy@vaumoney.iam.gserviceaccount.com" # "email_of_sa" # https://j.goggs.uk/2020/07/using-cloud-endpoints-with-cloud-run/
+    x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/metadata/x509/firebase-adminsdk-afvoy@vaumoney.iam.gserviceaccount.com" #/email_of_sa"
     x-google-audiences: "vaumoney"
+    x-google-jwt-locations:
+      - header: "Authorization"
+        value_prefix: "Bearer "
 security:
   - firebase: []
 
