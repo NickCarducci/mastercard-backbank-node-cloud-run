@@ -143,7 +143,7 @@ paths:
           #schema:
             #type: string
 securityDefinitions: #https://cloud.google.com/api-gateway/docs/authenticating-users-firebase
-  bearer: # https://cloud.google.com/endpoints/docs/openapi/openapi-extensions
+  firebase: #bearer https://cloud.google.com/endpoints/docs/openapi/openapi-extensions
     authorizationUrl: "" # empty for firebase frm bearer Authorization?
     flow: "implicit"
     type: "oauth2"
@@ -159,11 +159,12 @@ securityDefinitions: #https://cloud.google.com/api-gateway/docs/authenticating-u
     x-google-issuer: "firebase-adminsdk-afvoy@vaumoney.iam.gserviceaccount.com" # "email_of_sa" # https://j.goggs.uk/2020/07/using-cloud-endpoints-with-cloud-run/
     x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/metadata/x509/firebase-adminsdk-afvoy@vaumoney.iam.gserviceaccount.com" #/email_of_sa"
     x-google-audiences: "vaumoney"
-    x-google-jwt-locations:
-      - header: "Authorization"
-        value_prefix: "Bearer "
+    #x-google-jwt-locations:
+      #- header: "Authorization"
+        #value_prefix: "Bearer "
 security:
   - firebase: []
+  #- bearer: []
 
 #definitions:v3
   #String:
