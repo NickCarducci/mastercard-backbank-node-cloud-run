@@ -38,9 +38,9 @@ const getSecret = async (key) => {
 //https://cloud.google.com/load-balancing/docs/https/setting-up-https-serverless
 const express = require("express");
 
-
-const { OAuth2Client } = require('google-auth-library');
-const authClient = new OAuth2Client();
+//const myRefreshToken = '...'; // Get refresh token from OAuth2 flow
+//import { initializeApp } from 'firebase/app';
+const admin = require('firebase-admin');
 const app = express();
 //var router = express.Router();get("/")
 //https://stackoverflow.com/questions/19313016/catch-all-route-except-for-login
@@ -63,11 +63,14 @@ app.all("*", async (req, res) => {
     // a large volume of messages have prompted a single push server to
     // handle them, in which case they would all share the same token for
     // a limited time window.
-      const OAUTH_CLIENT_ID = await getSecret("OAUTH_CLIENT_ID")
+    // Retrieve services via the defaultApp variable...
+    //const { OAuth2Client } = require('google-auth-library');
+    //const authClient = new OAuth2Client();// Initialize the default app
+    let authClient = firebase.auth();//getAuth(firebase);
     const ticket = await authClient.verifyIdToken({
       idToken: req.header('Authorization').match(/Bearer (.*)/),
-      audience: OAUTH_CLIENT_ID//'example.com',
-    });
+      audience: await getSecret("OAUTH_CLIENT_ID")//'example.com',
+    });//https://support.google.com/cloud/answer/6158849?hl=en#zippy=%2Cauthorized-domains%2Cpublic-and-internal-applications%2Cweb-applications
 
     const claim = ticket.getPayload();
 
@@ -204,8 +207,15 @@ const port = 8080;//https://cloud.google.com/run/docs/tutorials/identity-platfor
 //https://cloud.google.com/secret-manager/docs/access-control
 //firebase-adminsdk-afvoy@vaumoney.iam.gserviceaccount.com	
 const server = app.listen(port, () => {
-
   console.log("listening on port %s.\n", server.address().port);
+  const firebase = admin.initializeApp({
+    credential: await getSecret("SERVICE_ACCOUNT_CERT"),//refreshToken(myRefreshToken),
+    databaseURL: 'https://vaumoney.firebaseio.com',
+    projectId: 'vaumoney',//<DATABASE_NAME>==PROJECT_ID
+  });
+  //const firebase = initializeApp(defaultAppConfig);
+
+  console.log(firebase.name);  // '[DEFAULT]'
 }).on('error', (e) => {
   console.log('Error listen happened: ', e.message)
 });
