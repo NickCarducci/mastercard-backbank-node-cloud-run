@@ -206,7 +206,7 @@ const port = 8080;//https://cloud.google.com/run/docs/tutorials/identity-platfor
 //roles/secretmanager.secretAccessor
 //https://cloud.google.com/secret-manager/docs/access-control
 //firebase-adminsdk-afvoy@vaumoney.iam.gserviceaccount.com	
-const server = app.listen(port, () => {
+const server = app.listen(port, async () => {
   console.log("listening on port %s.\n", server.address().port);
   const firebase = admin.initializeApp({
     credential: await getSecret("SERVICE_ACCOUNT_CERT"),//refreshToken(myRefreshToken),
