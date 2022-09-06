@@ -208,8 +208,9 @@ const port = 8080;//https://cloud.google.com/run/docs/tutorials/identity-platfor
 //firebase-adminsdk-afvoy@vaumoney.iam.gserviceaccount.com	
 const server = app.listen(port, async () => {
   console.log("listening on port %s.\n", server.address().port);
+  const SERVICE_ACCOUNT_CERT = await getSecret("SERVICE_ACCOUNT_CERT");
   const firebase = admin.initializeApp({
-    credential: await getSecret("SERVICE_ACCOUNT_CERT"),//refreshToken(myRefreshToken),
+    credential: admin.credential.cert(SERVICE_ACCOUNT_CERT),//refreshToken(myRefreshToken),
     databaseURL: 'https://vaumoney.firebaseio.com',
     projectId: 'vaumoney',//<DATABASE_NAME>==PROJECT_ID
   });
