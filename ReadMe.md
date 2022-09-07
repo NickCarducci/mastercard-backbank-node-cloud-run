@@ -1,4 +1,4 @@
-[<img align="right" src="https://www.dropbox.com/s/58d5s6hz532y0er/Cloud%20Run%20vs.%20Cloud%20Function.png?dl=0" alt="Cloud Run vs. Cloud Functions">](https://www.youtube.com/watch?v=zRjOSxTpC3A)
+[<img align="right" src="https://www.dl.dropboxusercontent.com/s/58d5s6hz532y0er/Cloud%20Run%20vs.%20Cloud%20Function.png?dl=0" alt="Cloud Run vs. Cloud Functions">](https://www.youtube.com/watch?v=zRjOSxTpC3A)
 
 [Cloud Run on GKE](https://www.youtube.com/watch?v=nhwYc4StHIc), maybe
 
