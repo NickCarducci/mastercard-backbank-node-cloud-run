@@ -160,9 +160,11 @@ memoized taxes with spoofable
 docket tax. Commodity tax but non-
 perishable = truncated wholesale
 durable goods tax.... That is regressive
-by role and transaction size, surely
+by role and transaction size, surely as so the educator and medicial guild has so imbridaled themselves (I suppose)
 
 What is capital revenue ?
 Nick Carducci
 Chairperson at Saver Party (2020–present)
 Capital surely is the way revenue materializes in an operational rate of profits and cost to revenue by time, labor-notwithstanding in production of durable goods.
+
+corporate tax receipts is profits exactly
