@@ -69,7 +69,20 @@ paths:
             Access-Control-Allow-Origin:
               type: string
               #$ref: '#/definitions/String'
-              default: '''vau.money'''
+              default: '''i7l8qe.csb.app'''
+            Access-Control-Allow-Methods:
+              type: string
+              default: '''GET,POST'''
+            Access-Control-Allow-Headers:
+              type: string
+              default: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+        403:
+          description: OPTIONS responding headers
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+              #$ref: '#/definitions/String'
+              default: '''i7l8qe.csb.app''' # '''vau.money'''
             Access-Control-Allow-Methods:
               type: string
               default: '''GET,POST'''
@@ -154,7 +167,7 @@ paths:
             #type: string
 securityDefinitions: #https://cloud.google.com/api-gateway/docs/authenticating-users-firebase
   firebase: #bearer https://cloud.google.com/endpoints/docs/openapi/openapi-extensions
-    authorizationUrl: "" # empty for firebase frm bearer Authorization?
+    authorizationUrl: "https://i7l8qe.csb.app" # empty for firebase frm bearer Authorization?
     flow: "implicit"
     type: "oauth2"
     #flows:https://stackoverflow.com/questions/69951644/swagger-openapi-3-documentation-for-firebase-authentication-securityscheme
