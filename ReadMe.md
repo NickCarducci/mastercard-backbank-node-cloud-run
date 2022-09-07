@@ -47,6 +47,10 @@ git push
 
 `gcloud config set project vaumoney`
 
+>list: `gcloud api-gateway apis list`
+
+### Here, I happen to use default App Engine service account
+
 `gcloud api-gateway api-configs create backbank --api=backbank --openapi-spec=swagger.yaml --project=vaumoney --backend-auth-service-account=vaumoney@appspot.gserviceaccount.com`
 
 ~~[`gcloud api-gateway apis add-iam-policy-binding backbank --member=vaumoney@appspot.gserviceaccount.com --role=roles/run.invoker`](https://cloud.google.com/sdk/gcloud/reference/api-gateway)
@@ -54,6 +58,12 @@ git push
 `gcloud api-gateway gateways add-iam-policy-binding backbank --member=vaumoney@appspot.gserviceaccount.com --role=roles/run.invoker`~~
 
 ~~`gcloud api-gateway api-configs update backbank --api=backbank --openapi-spec=swagger.yaml --project=vaumoney --backend-auth-service-account=vaumoney@appspot.gserviceaccount.com`~~
+
+>delete: `gcloud api-gateway api-configs delete backbank --api=backbank` config, api both "backbank" for me (config=api+gateway? 'yes, config is in use...')
+
+`gcloud api-gateway apis delete backbank` "Resource projects/project_id/locaations/global/apis/backbank has nested resources" ...`gcloud endpoints services list` and `gcloud endpoints services delete backbank-_.apigateway.vaumoney.cloud.goog`
+
+`gcloud api-gateway gateways delete backbank --location=us-central1` gateway is also titled "backbank" with api and its config, just project name and id are "vaumoney"
 
 [IAM service accounts](https://cloud.google.com/api-gateway/docs/configure-dev-env#enabling_required_services) required for api gateway configs for vaumoney@appspot.gserviceaccount.com	
 
@@ -178,3 +188,16 @@ corporate tax receipts is profits exactly
 [jwt_authn_access_denied](https://stackoverflow.com/questions/66895136/firebase-authorization-bearer-token-not-registering){[Jwt_is_missing](https://stackoverflow.com/questions/66488455/secure-app-engine-backend-with-gcp-api-gateway-and-firebase-auth)}
 
 >"when you invoke Cloud Run, you have to explicitly [mention the Cloud Run [address and jwt_]audience](https://stackoverflow.com/questions/71782426/google-cloud-api-gateway-cant-invoke-cloud-run-service-while-using-firebase-aut)"
+
+# Use a [custom domain](https://cloud.google.com/api-gateway/docs/using-custom-domains) with API Gateway
+#### *Here we go again...*
+
+> A custom domain for your gateway can be implemented by configuring HTTP(S) Load Balancing for API GatewayPREVIEW. Once the HTTP(S) load balancer for your gateway is set up, follow the steps below to update your custom domain's DNS records to point to the new load balancer service.
+
+#### [Using a serverless NEG for API Gateway](https://cloud.google.com/api-gateway/docs/gateway-load-balancing#using_a_serverless_neg_for)
+
+If you want free must use hash **gateway-instance** dev domain
+
+name that 'backbank'
+
+api spec (again if not from api *creating gateway* after having had created api with config) & use the name location region
