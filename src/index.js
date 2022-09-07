@@ -85,7 +85,6 @@ app.all("*", async (req, res) => {
     //not onlyis it not clear it is to be determined in court by dipole of 
     //Are “other hands” not rather known as “dipoles” to economists?
 
-
     // IMPORTANT: you should validate claim details not covered
     // by signature and audience verification above, including:
     //   - Ensure that `claim.email` is equal to the expected service

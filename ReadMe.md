@@ -1,4 +1,8 @@
-## [hibit-client](https://github.com/NickCarducci/hibit-client) firebase services via cloud run gateway and endpoints
+# [AHHHHH](https://www.youtube.com/watch?v=5r21CVd6nwo)
+
+## [hibit-client](https://github.com/NickCarducci/hibit-client) firebase services via cloud run gateway and endpoints (swagger.yaml)
+
+### [(Workflow-)](https://github.com/GoogleCloudPlatform/workflows-samples/) Invoke [Cloud Run](https://cloud.google.com/workflows/docs/samples/workflows-connect-run) for [OICD](https://cloud.google.com/workflows/docs/calling-run-functions)
 
 [ATM location intelligence](https://developer.mastercard.com/locations/documentation/sdk-reference/)
 
@@ -67,6 +71,8 @@ gcloud [endpoints services deploy](https://www.reddit.com/r/googlecloud/comments
 
 [ESP or python](https://cloud.google.com/endpoints/docs/openapi/set-up-cloud-run-espv2)
 
+### Alternatively use cli, instead of cloud build-api gateway
+
 #### [Building a new ESPv2 image](https://cloud.google.com/endpoints/docs/openapi/set-up-cloud-run-espv2#configure_esp)
 
 DEPLOYMENT HISTORY 2022-09-06r0 CONFIG_ID
@@ -85,4 +91,22 @@ the taged url host, path, ex-protocol 5x: "gcr.io/project_id/endpoints-runtime-s
 
 >If you want ESPv2 to manage access, use the --allow-unauthenticated flag to ensure that ESPv2 verifies the JWT token. If the flag is not used, the JWT token is intercepted and verified by Cloud Run access control IAM server. Since the IAM and ESPv2 use the same Authorization header, they don't work together, make sure only use one of them. Recommend to use IAM instead of ESPv2 for managing access.
 
-look at me, I'm [donkey](https://cloud.google.com/endpoints/docs/openapi/openapi-extensions)
+[look](https://cloud.google.com/run/docs/triggering/using-workflows#gcloud) at [me](https://github.com/GoogleCloudPlatform/workflows-samples/blob/main/src/connect_run.workflows.yaml), I'm [donkey](https://cloud.google.com/endpoints/docs/openapi/openapi-extensions)
+
+`gcloud beta workflows deploy this_workflow --source src/this_workflow.workflows.yaml`
+
+`this_workflow`
+````
+- call_my_function:
+    call: http.get
+    args:
+      url: https://example-12345-ew.a.run.app
+      auth:
+        type: OIDC
+      query:
+        some_val: "Hello World"
+        another_val: 123
+    result: the_message
+- return_value:
+    return: ${the_message.body}
+````
