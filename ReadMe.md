@@ -59,11 +59,13 @@ git push
 
 ~~`gcloud api-gateway api-configs update backbank --api=backbank --openapi-spec=swagger.yaml --project=vaumoney --backend-auth-service-account=vaumoney@appspot.gserviceaccount.com`~~
 
->delete: `gcloud api-gateway api-configs delete backbank --api=backbank` config, api both "backbank" for me (config=api+gateway? 'yes, config is in use...')
+#### reset swagger.yaml securityDefinitions firebase [audiences](https://stackoverflow.com/questions/66895461/gcp-api-gateway-jwt-always-returning-403)
+
+>1. delete: `gcloud api-gateway api-configs delete backbank --api=backbank` config, api both "backbank" for me (config=api+gateway? 'yes, config is in use...')
 
 `gcloud api-gateway apis delete backbank` "Resource projects/project_id/locaations/global/apis/backbank has nested resources" ...`gcloud endpoints services list` and `gcloud endpoints services delete backbank-_.apigateway.vaumoney.cloud.goog`
 
-`gcloud api-gateway gateways delete backbank --location=us-central1` gateway is also titled "backbank" with api and its config, just project name and id are "vaumoney"
+>2. `gcloud api-gateway gateways delete backbank --location=us-central1` gateway is also titled "backbank" with api and its config, just project name and id are "vaumoney"
 
 [IAM service accounts](https://cloud.google.com/api-gateway/docs/configure-dev-env#enabling_required_services) required for api gateway configs for vaumoney@appspot.gserviceaccount.com	
 
@@ -201,3 +203,11 @@ If you want free must use hash **gateway-instance** dev domain
 name that 'backbank'
 
 api spec (again if not from api *creating gateway* after having had created api with config) & use the name location region
+
+>Regarding your questions, the [authorizationUrl](https://stackoverflow.com/questions/52526854/how-to-set-up-custom-user-authentication-with-google-cloud-endpoints) should be set up by the OAuth2 provider you are using. That url should allow the consumer to execute the implicit OAuth2 flow to get an access token. All you need to do is specify this
+
+The simplest way to use credentials from a user account is via Application Default Credentials using gcloud auth login (as mentioned above):
+
+https://gcloud.readthedocs.io/en/latest/google-cloud-auth.html
+
+Why wouldn't explicit uid granted token flow with refresh token in *yaml flow* work?

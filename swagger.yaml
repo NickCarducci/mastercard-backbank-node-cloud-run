@@ -168,7 +168,7 @@ securityDefinitions: #https://cloud.google.com/api-gateway/docs/authenticating-u
     x-google-issuer: "https://securetoken.google.com/vaumoney"
     #x-google-issuer: "https://firebase-adminsdk-afvoy@vaumoney.iam.gserviceaccount.com" # "email_of_sa" # https://j.goggs.uk/2020/07/using-cloud-endpoints-with-cloud-run/
     x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com" # firebase-adminsdk-afvoy@vaumoney.iam.gserviceaccount.com" #/email_of_sa"
-    x-google-audiences: "https://vau.money,https://i7l8qe.csb.app"
+    x-google-audiences: "https://backbank-ab4vy6yptq-uc.a.run.app" # "https://vau.money,https://i7l8qe.csb.app"
     #x-google-jwt-locations:
       #- header: "Authorization"
         #value_prefix: "Bearer "
