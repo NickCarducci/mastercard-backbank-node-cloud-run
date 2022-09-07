@@ -99,6 +99,8 @@ the taged url host, path, ex-protocol 5x: "gcr.io/project_id/endpoints-runtime-s
 
 `gcloud beta workflows deploy this_workflow --source src/this_workflow.workflows.yaml`
 
+"will the special master have the security clearance?" is the government fdic insured? is there oversight, transparency, accountability to use/time value-power as the return/capital of profiteer/labor while the contractor/durable-good lives.
+
 `this_workflow`
 ````
 - call_my_function:
@@ -114,3 +116,5 @@ the taged url host, path, ex-protocol 5x: "gcr.io/project_id/endpoints-runtime-s
 - return_value:
     return: ${the_message.body}
 ````
+
+Is sexual relations akin to hr foreign but for racketeering incrimination by testimony under threat agent registry storage less expiry use for exchange as input towards the natural individual
