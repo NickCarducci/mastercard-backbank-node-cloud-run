@@ -27,15 +27,15 @@ consumes:
 produces:
 - application/json
 x-google-allow: all
-x-google-backend:
-  address: https://backbank-ab4vy6yptq-uc.a.run.app # https://vault-co.in # APP_URL
-  protocol: h2
   #jwt_audience: https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com/vaumoney
 paths:
   /:
     get:
       summary: Yes Hello cloud run (api gateway, load balance) service
       operationId: get
+      x-google-backend:
+        address: https://backbank-ab4vy6yptq-uc.a.run.app # https://vault-co.in # APP_URL
+        protocol: h2
       responses:
         200:
           description: This is a (Non-Graphical) Application Programming Interface
@@ -52,6 +52,9 @@ paths:
     options:
       summary: Enable CORS with headers
       operationId: options
+      x-google-backend:
+        address: https://backbank-ab4vy6yptq-uc.a.run.app # https://vault-co.in # APP_URL
+        protocol: h2
       description: |
         Origin, Methods and Headers allowing headers potentially requested
       tags:
@@ -80,6 +83,9 @@ paths:
     post:
       summary: Respond properly indeed
       operationId: posted
+      x-google-backend:
+        address: https://backbank-ab4vy6yptq-uc.a.run.app # https://vault-co.in # APP_URL
+        protocol: h2
       description: |
         Successful api fetch
       parameters:
