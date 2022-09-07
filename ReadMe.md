@@ -168,3 +168,5 @@ Chairperson at Saver Party (2020–present)
 Capital surely is the way revenue materializes in an operational rate of profits and cost to revenue by time, labor-notwithstanding in production of durable goods.
 
 corporate tax receipts is profits exactly
+
+[jwt_authn_access_denied](https://stackoverflow.com/questions/66895136/firebase-authorization-bearer-token-not-registering){[Jwt_is_missing](https://stackoverflow.com/questions/66488455/secure-app-engine-backend-with-gcp-api-gateway-and-firebase-auth)}
