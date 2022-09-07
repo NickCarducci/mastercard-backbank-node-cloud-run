@@ -87,7 +87,7 @@ DEPLOYMENT HISTORY 2022-09-06r0 CONFIG_ID
 
 *live between their own means*, their needs; that means, welfare for the disabled, by developmental-ability, or injury
 
-individual retirement is for naught when "commerce-expiry", not an event ever sensible
+individual [retirement](https://www.quora.com/unanswered/Is-anti-production-not-dead-weight-as-capital-return-is-the-profiteer-s-natural-wage) is for naught when "commerce-expiry", not an event ever sensible
 
 the taged url host, path, ex-protocol 5x: "gcr.io/project_id/endpoints-runtime-serverless:`<version>`-`<host>`-`<config_id>`"
 
