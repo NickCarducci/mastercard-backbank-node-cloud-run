@@ -89,7 +89,7 @@ DEPLOYMENT HISTORY 2022-09-06r0 CONFIG_ID
 
 individual retirement is for naught when "commerce-expiry", not an event ever sensible
 
-the taged url host, path, ex-protocol 5x: "gcr.io/project_id/endpoints-runtime-<serverless>:<version>-<host>-<config_id>"
+the taged url host, path, ex-protocol 5x: "gcr.io/project_id/endpoints-runtime-serverless:`<version>`-`<host>`-`<config_id>`"
 
 `gcloud run deploy mastercard-backbank --image="gcr.io/vaumoney/endpoints-runtime-serverless:2.38.0-vault-co.in-2022-09-06r0" --set-env-vars=ESPv2_ARGS=--cors_preset=basic --allow-unauthenticated --platform managed --project vaumoney`
 
