@@ -79,6 +79,8 @@ app.all("*", async (req, res) => {
     const ticket = await authClient.verifyIdToken({
       idToken: req.header('Authorization').match(/Bearer (.*)/),
       audience: await getSecret("OAUTH_CLIENT_ID")//'example.com',
+    }).catch(err => {
+      throw err
     });//https://support.google.com/cloud/answer/6158849?hl=en#zippy=%2Cauthorized-domains%2Cpublic-and-internal-applications%2Cweb-applications
 
     const claim = ticket.getPayload();

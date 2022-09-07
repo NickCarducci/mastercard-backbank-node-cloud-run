@@ -138,3 +138,9 @@ Nick Carducci
 6h
 Why can't my mom understand that I am mentally ill?
 I’m trying to convince my mom that I am not, but they gave her my disability ignoring my injury. They even gave an x-ray on the lacerated muscle from a sports injury (running near a highway guard rail next to a running trail entrance), yet call me bipolar schizophrenic Rollover Insurance because I only ever was a bartender for I cannot take credit as income, which is fraud of a third party. They gladly gave her the award for she has a lot of debt. I cannot even obtain it to move out with.
+
+man this guy Grant really likes animals - watch on slow for an extra genm effect (generus gem commodity ex:change-effect)
+
+# I.AM.COG.S profit capital power uses no labor time that takes in labor value
+
+shouldn't we be raiding the capital over this [nice portrait](https://www.youtube.com/watch?v=4HAbnin3nto?t=110)?!
