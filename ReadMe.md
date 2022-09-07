@@ -119,4 +119,6 @@ the taged url host, path, ex-protocol 5x: "gcr.io/project_id/endpoints-runtime-s
 
 Is sexual relations akin to hr foreign but for racketeering incrimination by testimony under threat agent registry storage less expiry use for exchange as input towards the natural individual. Does a natural wage not account for profits, wages and costs to revenue?
 
-tech owned by labor. computer labs in homeless shelters. Isn’t socialism defined by welfare for the injured and developmentally disabled alone? Isn’t it unfortunate that because of finance we increasingly need to force elderly people to work harder and faster?
+tech owned by labor. computer labs in homeless shelters. Isn’t socialism defined by welfare for the injured and developmentally disabled alone? Isn’t it unfortunate that because of finance we increasingly need to force elderly people to work harder and faster? Does a real wage not ignore profits and costs to revenue that so avails itself in the natural wage? Does a natural wage not account for profits, wages, and costs to revenue? (*Isn’t production capital-return by profiteer’s, labor’s, and durable good wage?*) Is anti-production not “dead-weight” as “capital-return” is the profiteer’s natural wage?
+
+naturally, you've [banned - "stange adverbs" cornpop] yourself within use exchange
