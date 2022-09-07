@@ -49,6 +49,12 @@ git push
 
 `gcloud api-gateway api-configs create backbank --api=backbank --openapi-spec=swagger.yaml --project=vaumoney --backend-auth-service-account=vaumoney@appspot.gserviceaccount.com`
 
+~~[`gcloud api-gateway apis add-iam-policy-binding backbank --member=vaumoney@appspot.gserviceaccount.com --role=roles/run.invoker`](https://cloud.google.com/sdk/gcloud/reference/api-gateway)
+
+`gcloud api-gateway gateways add-iam-policy-binding backbank --member=vaumoney@appspot.gserviceaccount.com --role=roles/run.invoker`~~
+
+~~`gcloud api-gateway api-configs update backbank --api=backbank --openapi-spec=swagger.yaml --project=vaumoney --backend-auth-service-account=vaumoney@appspot.gserviceaccount.com`~~
+
 [IAM service accounts](https://cloud.google.com/api-gateway/docs/configure-dev-env#enabling_required_services) required for api gateway configs for vaumoney@appspot.gserviceaccount.com	
 
 [swagger.yaml](https://editor.swagger.io/)

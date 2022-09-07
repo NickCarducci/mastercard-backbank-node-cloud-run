@@ -13,13 +13,14 @@ basePath: "/" # https://stackoverflow.com/questions/71258737/making-a-cloud-fire
 #When the basePath property is configured in the service configuration as well, 
 #this header applies only to URL paths that are prefixed by the basePath property value. 
 #URLs that aren't part of the basePath aren't passed through regardless of the x-google-allow property.
-quota: # https://cloud.google.com/endpoints/docs/openapi/openapi-extensions#x-google-quota
-  limits:
-    - name: read-requests-limit
-      metric: read-requests
-      unit: 1/min/vaumoney
-      values:
-        STANDARD: 50
+
+#quota: # https://cloud.google.com/endpoints/docs/openapi/openapi-extensions#x-google-quota
+  #limits:
+    #- name: read-requests-limit
+      #metric: read-requests
+      #unit: 1/min/vaumoney
+      #values:
+        #STANDARD: 50
 schemes:
 - https
 consumes:
