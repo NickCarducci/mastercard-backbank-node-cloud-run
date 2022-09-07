@@ -170,3 +170,5 @@ Capital surely is the way revenue materializes in an operational rate of profits
 corporate tax receipts is profits exactly
 
 [jwt_authn_access_denied](https://stackoverflow.com/questions/66895136/firebase-authorization-bearer-token-not-registering){[Jwt_is_missing](https://stackoverflow.com/questions/66488455/secure-app-engine-backend-with-gcp-api-gateway-and-firebase-auth)}
+
+>"when you invoke Cloud Run, you have to explicitly [mention the Cloud Run [address and jwt_]audience](https://stackoverflow.com/questions/71782426/google-cloud-api-gateway-cant-invoke-cloud-run-service-while-using-firebase-aut)"
