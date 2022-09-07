@@ -38,7 +38,7 @@ paths:
       operationId: get
       responses:
         200:
-          description: This is a (Non-Graphical) Applicatin Programming Interface
+          description: This is a (Non-Graphical) Application Programming Interface
           #schema:
               #type: string
           #default: '''ello guv'''
@@ -155,9 +155,9 @@ securityDefinitions: #https://cloud.google.com/api-gateway/docs/authenticating-u
           #write: Grants write access
           #admin: Grants access to admin operations
     # Replace vaumoney with your project ID # X-Apigateway-Api-Userinfo
-    #x-google-issuer: "https://securetoken.google.com/vaumoney"
-    x-google-issuer: "firebase-adminsdk-afvoy@vaumoney.iam.gserviceaccount.com" # "email_of_sa" # https://j.goggs.uk/2020/07/using-cloud-endpoints-with-cloud-run/
-    x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/metadata/x509/firebase-adminsdk-afvoy@vaumoney.iam.gserviceaccount.com" #/email_of_sa"
+    x-google-issuer: "https://securetoken.google.com/vaumoney"
+    #x-google-issuer: "https://firebase-adminsdk-afvoy@vaumoney.iam.gserviceaccount.com" # "email_of_sa" # https://j.goggs.uk/2020/07/using-cloud-endpoints-with-cloud-run/
+    x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com" # firebase-adminsdk-afvoy@vaumoney.iam.gserviceaccount.com" #/email_of_sa"
     x-google-audiences: "vaumoney"
     #x-google-jwt-locations:
       #- header: "Authorization"
