@@ -1,4 +1,5 @@
-[<img align="right" src="https://www.dl.dropboxusercontent.com/s/58d5s6hz532y0er/Cloud%20Run%20vs.%20Cloud%20Function.png?dl=0" alt="Cloud Run vs. Cloud Functions">](https://www.youtube.com/watch?v=zRjOSxTpC3A)
+[<img align="right" src="https://www.dl.dropboxusercontent.com/s/58d5s6hz532y0er/Cloud%20Run%20vs.%20Cloud%20Function.png?dl=0" alt="Cloud Run vs. Cloud Functions">](https://www.youtube.com/watch?v=zRjOSxTpC3A?t=570) 
+"cloud splitting, custom domains listen to port and setting up a server service"
 
 [Cloud Run on GKE](https://www.youtube.com/watch?v=nhwYc4StHIc), maybe
 
