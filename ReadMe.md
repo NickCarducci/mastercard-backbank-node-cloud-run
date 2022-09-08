@@ -103,15 +103,21 @@ DEPLOYMENT HISTORY 2022-09-06r0 CONFIG_ID (endpoint generated)
 
 b. `chmod +x gcloud_build_image && ./gcloud_build_image -s vault-co.in -c 2022-09-06r0 -p vaumoney`
 
-#### Deploying the ESPv2 container
+#### Deploying the ESPv2 container endpoint to run ..the service ([The Extensible Service Proxy](https://cloud.google.com/endpoints/docs/openapi/specify-esp-v2-startup-options))
+
+*consumation*
 
 *live between their own means*, their needs; that means, welfare for the disabled, by developmental-ability, or injury
 
 individual [retirement](https://www.quora.com/unanswered/Is-anti-production-not-dead-weight-as-capital-return-is-the-profiteer-s-natural-wage) is for naught when "commerce-expiry", not an event ever sensible
 
-the taged url host, path, ex-protocol 5x: "gcr.io/project_id/endpoints-runtime-serverless:`<version>`-`<host>`-`<config_id>`"
+the taged url host, path, ex-protocol 5x: "[gcr.io/project_id/endpoints-runtime-serverless](https://github.com/GoogleCloudPlatform/esp-v2/releases):`<version>`-`<host>`-`<config_id>`"
 
-c. `gcloud run deploy mastercard-backbank --image="gcr.io/vaumoney/endpoints-runtime-serverless:2.38.0-vault-co.in-2022-09-06r0" --set-env-vars=ESPv2_ARGS=--cors_preset=basic --allow-unauthenticated --platform managed --project vaumoney`
+c. ~~`gcloud run deploy mastercard-backbank --image="gcr.io/vaumoney/endpoints-runtime-serverless:2.38.0-vault-co.in-2022-09-06r0" --set-env-vars=ESPv2_ARGS=--cors_preset=basic --allow-unauthenticated --platform managed --project vaumoney`~~
+
+endpoint extensible service proxy [proper cors regex](https://cloud.google.com/endpoints/docs/openapi/specify-esp-v2-startup-options#jwt_authn)
+
+`gcloud run deploy mastercard-backbank --image="gcr.io/vaumoney/endpoints-runtime-serverless:2.38.0-vault-co.in-2022-09-08r1" --set-env-vars=ESPv2_ARGS=^++^--cors_preset=cors_with_regex++--cors_allow_origin_regex=(https:[/][/]vau.money)|(https:[/][/]i7l8qe.csb.app)++--cors_allow_methods=GET,POST,OPTIONS++--cors_allow_headers=Origin,Content-Type,Authorization,Referrer-Policy++--cors_allow_credentials=true --platform managed --project vaumoney`
 
 >If you want ESPv2 to manage access, use the --allow-unauthenticated flag to ensure that ESPv2 verifies the JWT token. If the flag is not used, the JWT token is intercepted and verified by Cloud Run access control IAM server. Since the IAM and ESPv2 use the same Authorization header, they don't work together, make sure only use one of them. Recommend to use IAM instead of ESPv2 for managing access.
 
