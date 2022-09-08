@@ -117,7 +117,10 @@ c. ~~`gcloud run deploy mastercard-backbank --image="gcr.io/vaumoney/endpoints-r
 
 endpoint extensible service proxy [proper cors regex](https://cloud.google.com/endpoints/docs/openapi/specify-esp-v2-startup-options#jwt_authn)
 
-`gcloud run deploy mastercard-backbank --image="gcr.io/vaumoney/endpoints-runtime-serverless:2.38.0-vault-co.in-2022-09-08r1" --set-env-vars=ESPv2_ARGS=^++^--cors_preset=cors_with_regex++--cors_allow_origin_regex=(https:[/][/]vau.money)|(https:[/][/]i7l8qe.csb.app)++--cors_allow_methods=GET,POST,OPTIONS++--cors_allow_headers=Origin,Content-Type,Authorization,Referrer-Policy++--cors_allow_credentials=true --platform managed --project vaumoney`
+
+gcloud run deploy mastercard-backbank --image="gcr.io/vaumoney/endpoints-runtime-serverless:2.38.0-vault-co.in-2022-09-08r1" --set-env-vars=ESPv2_ARGS=--cors_preset=cors_with_regex--cors_allow_origin_regex=^~~https:[/][/](vau.money)?|(i7l8qe.csb.app)?~~$--cors_allow_methods=GET,POST,OPTIONS--cors_allow_headers=Origin,Content-Type,Authorization,Referrer-Policy--cors_allow_credentials --platform managed --project vaumoney
+
+`gcloud run deploy mastercard-backbank --image="gcr.io/vaumoney/endpoints-runtime-serverless:2.38.0-vault-co.in-2022-09-08r1" --set-env-vars=ESPv2_ARGS=--cors_preset=cors_with_regex--cors_allow_origin_regex=^https:[/][/]i|v|7|a|l|u|8|.|q|m|e|o|.|n|c|e|s|y|b.app$--cors_allow_methods=GET,POST,OPTIONS--cors_allow_headers=Origin,Content-Type,Authorization,Referrer-Policy--cors_allow_credentials --platform managed --project vaumoney`
 
 >If you want ESPv2 to manage access, use the --allow-unauthenticated flag to ensure that ESPv2 verifies the JWT token. If the flag is not used, the JWT token is intercepted and verified by Cloud Run access control IAM server. Since the IAM and ESPv2 use the same Authorization header, they don't work together, make sure only use one of them. Recommend to use IAM instead of ESPv2 for managing access.
 
