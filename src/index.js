@@ -43,6 +43,55 @@ const express = require("express");
 const admin = require('firebase-admin');
 const app = express();//hey guyses, hyey
 //var router = express.Router();get("/")
+
+async function authenticateInNode() {
+  try {
+    const SERVICE_ACCOUNT_CERT = await getSecret("SERVICE_ACCOUNT_CERT");
+    const firebase = admin.initializeApp({
+      credential: admin.credential.cert(SERVICE_ACCOUNT_CERT),//refreshToken(myRefreshToken),
+      databaseURL: 'https://vaumoney.firebaseio.com',
+      projectId: 'vaumoney',//<DATABASE_NAME>==PROJECT_ID
+    });
+    //const firebase = initializeApp(defaultAppConfig);
+
+    console.log(firebase.name);  // '[DEFAULT]'
+    // Get the Cloud Pub/Sub-generated JWT in the "Authorization" header.
+
+    // Verify and decode the JWT.
+    // Note: For high volume push requests, it would save some network
+    // overhead if you verify the tokens offline by decoding them using
+    // Google's Public Cert; caching already seen tokens works best when
+    // a large volume of messages have prompted a single push server to
+    // handle them, in which case they would all share the same token for
+    // a limited time window.
+    // Retrieve services via the defaultApp variable...
+    //const { OAuth2Client } = require('google-auth-library');
+    //const authClient = new OAuth2Client();// Initialize the default app
+    let authClient = firebase.auth();//getAuth(firebase);
+    const ticket = await authClient.verifyIdToken({
+      idToken: req.header('Authorization').match(/Bearer (.*)/),
+      audience: await getSecret("OAUTH_CLIENT_ID")//'example.com',
+    }).catch(err => {
+      throw err
+    });//https://support.google.com/cloud/answer/6158849?hl=en#zippy=%2Cauthorized-domains%2Cpublic-and-internal-applications%2Cweb-applications
+
+    const claim = ticket.getPayload();
+    //not onlyis it not clear it is to be determined in court by dipole of 
+    //Are “other hands” not rather known as “dipoles” to economists?
+
+    // IMPORTANT: you should validate claim details not covered
+    // by signature and audience verification above, including:
+    //   - Ensure that `claim.email` is equal to the expected service
+    //     account set up in the push subscription settings.
+    //   - Ensure that `claim.email_verified` is set to true.
+
+    claims.push(claim);
+  } catch (e) {
+    res.status(400).send('Invalid token');
+    return;
+  }
+}
+
 //https://stackoverflow.com/questions/19313016/catch-all-route-except-for-login
 app.all("*", async (req, res) => {
   // Verify that the request originates from the application.
@@ -75,51 +124,8 @@ app.all("*", async (req, res) => {
       return res.status(200).send({});
     } else {
       // Verify that the push request originates from Cloud Pub/Sub.
-      try {
-        const SERVICE_ACCOUNT_CERT = await getSecret("SERVICE_ACCOUNT_CERT");
-        const firebase = admin.initializeApp({
-          credential: admin.credential.cert(SERVICE_ACCOUNT_CERT),//refreshToken(myRefreshToken),
-          databaseURL: 'https://vaumoney.firebaseio.com',
-          projectId: 'vaumoney',//<DATABASE_NAME>==PROJECT_ID
-        });
-        //const firebase = initializeApp(defaultAppConfig);
 
-        console.log(firebase.name);  // '[DEFAULT]'
-        // Get the Cloud Pub/Sub-generated JWT in the "Authorization" header.
-
-        // Verify and decode the JWT.
-        // Note: For high volume push requests, it would save some network
-        // overhead if you verify the tokens offline by decoding them using
-        // Google's Public Cert; caching already seen tokens works best when
-        // a large volume of messages have prompted a single push server to
-        // handle them, in which case they would all share the same token for
-        // a limited time window.
-        // Retrieve services via the defaultApp variable...
-        //const { OAuth2Client } = require('google-auth-library');
-        //const authClient = new OAuth2Client();// Initialize the default app
-        let authClient = firebase.auth();//getAuth(firebase);
-        const ticket = await authClient.verifyIdToken({
-          idToken: req.header('Authorization').match(/Bearer (.*)/),
-          audience: await getSecret("OAUTH_CLIENT_ID")//'example.com',
-        }).catch(err => {
-          throw err
-        });//https://support.google.com/cloud/answer/6158849?hl=en#zippy=%2Cauthorized-domains%2Cpublic-and-internal-applications%2Cweb-applications
-
-        const claim = ticket.getPayload();
-        //not onlyis it not clear it is to be determined in court by dipole of 
-        //Are “other hands” not rather known as “dipoles” to economists?
-
-        // IMPORTANT: you should validate claim details not covered
-        // by signature and audience verification above, including:
-        //   - Ensure that `claim.email` is equal to the expected service
-        //     account set up in the push subscription settings.
-        //   - Ensure that `claim.email_verified` is set to true.
-
-        claims.push(claim);
-      } catch (e) {
-        res.status(400).send('Invalid token');
-        return;
-      }
+      //authenticateInNode()
 
       const MASTERCARD_CONSUMER_KEY = await getSecret("MASTERCARD_CONSUMER_KEY")
       const MASTERCARD_P12_BINARY = await getSecret("MASTERCARD_P12_BINARY")
