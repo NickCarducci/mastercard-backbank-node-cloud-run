@@ -59,7 +59,7 @@ paths:
       operationId: options
       x-google-backend:
         address: https://vault-co.in # APP_URL endpoint(s)
-        jwt_audience: https://backbank-ab4vy6yptq-uc.a.run.app
+        jwt_audience: https://backbank-7enucp8c.uc.gateway.dev 
         protocol: h2
       description: |
         Origin, Methods and Headers allowing headers potentially requested
@@ -104,7 +104,7 @@ paths:
       operationId: posted
       x-google-backend:
         address: https://vault-co.in # APP_URL endpoint(s)
-        jwt_audience: https://backbank-ab4vy6yptq-uc.a.run.app
+        jwt_audience: https://backbank-7enucp8c.uc.gateway.dev 
         protocol: h2
       description: |
         Successful api fetch
