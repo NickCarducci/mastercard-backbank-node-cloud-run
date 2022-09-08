@@ -49,7 +49,7 @@ git push
 
 >list: `gcloud api-gateway apis list`
 
-### Here, I happen to use default App Engine service account
+### Here, I happen to use default App Engine service account (for api gateway implicit flow)
 
 `gcloud api-gateway api-configs create backbank --api=backbank --openapi-spec=swagger.yaml --project=vaumoney --backend-auth-service-account=vaumoney@appspot.gserviceaccount.com`
 
@@ -60,6 +60,8 @@ git push
 ~~`gcloud api-gateway api-configs update backbank --api=backbank --openapi-spec=swagger.yaml --project=vaumoney --backend-auth-service-account=vaumoney@appspot.gserviceaccount.com`~~
 
 #### reset swagger.yaml securityDefinitions firebase [audiences](https://stackoverflow.com/questions/66895461/gcp-api-gateway-jwt-always-returning-403)
+
+`gcloud api-gateway apis delete backbank`
 
 >1. delete: `gcloud api-gateway api-configs delete backbank --api=backbank` config, api both "backbank" for me (config=api+gateway? 'yes, config is in use...')
 
@@ -82,7 +84,6 @@ instance load balancer NEG Zonal for other uses than regional backend LB (premiu
 with cloud run vs. ...compute engine,virtual machine,NEG
 
 > Cloud run (custom domain): "None of the URLs above are directly accessible because this service only allows authenticated invocations." and swagger.yaml (API gateway) uses such domain (or Assigned by Cloud Run https://backbank-_.a.run.app) as host
-
 
 [endpoints](https://stackoverflow.com/questions/63389913/how-can-my-cloud-run-accept-traffic-only-from-cloud-scheduler-and-google-directo)
 

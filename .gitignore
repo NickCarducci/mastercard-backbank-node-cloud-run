@@ -1,3 +1,7 @@
 google-cloud-sdk
 node_modules
 package-lock.json
+cloudbuild.yml
+workflows.yaml
+maintf
+swagger.aml

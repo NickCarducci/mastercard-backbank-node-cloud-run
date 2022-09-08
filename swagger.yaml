@@ -1,5 +1,5 @@
 # openapi2-run.yaml
-swagger: '2.0'
+swagger: "2.0"
 info: # >1 API/service, specify names in the x-google-api-name OpenAPI document extension.
   title: mastercard-backbank # API_ID optional-string
   #https://cloud.google.com/api-gateway/docs/get-started-cloud-run
@@ -7,61 +7,64 @@ info: # >1 API/service, specify names in the x-google-api-name OpenAPI document 
   version: 0.0.1
 host: "vault-co.in"
 x-google-endpoints:
-- name: "vault-co.in"
-  allowCors: True
+  - name: "vault-co.in"
+    allowCors: True
 basePath: "/" # https://stackoverflow.com/questions/71258737/making-a-cloud-firestore-rest-api-call-through-cloud-endpoints
-#When the basePath property is configured in the service configuration as well, 
-#this header applies only to URL paths that are prefixed by the basePath property value. 
+#When the basePath property is configured in the service configuration as well,
+#this header applies only to URL paths that are prefixed by the basePath property value.
 #URLs that aren't part of the basePath aren't passed through regardless of the x-google-allow property.
 
 #quota: # https://cloud.google.com/endpoints/docs/openapi/openapi-extensions#x-google-quota
-  #limits:
-    #- name: read-requests-limit
-      #metric: read-requests
-      #unit: 1/min/vaumoney
-      #values:
-        #STANDARD: 50
+#limits:
+#- name: read-requests-limit
+#metric: read-requests
+#unit: 1/min/vaumoney
+#values:
+#STANDARD: 50
 schemes:
-- https
+  - https
 consumes:
-- application/json
+  - application/json
 produces:
-- application/json
-x-google-allow: all
+  - application/json
+x-google-allow:
+  all
   #jwt_audience: https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com/vaumoney
 paths:
   /:
     get:
       summary: Yes Hello cloud run (api gateway, load balance) service
       operationId: get
-      x-google-backend:
-        address: https://backbank-ab4vy6yptq-uc.a.run.app # https://vault-co.in # APP_URL
-        jwt_audience: https://backbank-ab4vy6yptq-uc.a.run.app
+      x-google-backend: # https://cloud.google.com/endpoints/docs/openapi/openapi-extensions
+        address: https://vault-co.in # APP_URL endpoint(s)
+        # If an operation uses x-google-backend but does not specify either jwt_audience or disable_auth,
+        # ESPv2 will automatically default the jwt_audience to match the address.
+        jwt_audience: https://backbank-7enucp8c.uc.gateway.dev # https://backbank-ab4vy6yptq-uc.a.run.app
         protocol: h2
       responses:
         200:
           description: This is a (Non-Graphical) Application Programming Interface
           #schema:
-              #type: string
+          #type: string
           #default: '''ello guv'''
 
         default:
           description: Something is wrong
           #schema:
-              #type: string
+          #type: string
           #default: '''some not 200'''
 
     options:
       summary: Enable CORS with headers
       operationId: options
       x-google-backend:
-        address: https://backbank-ab4vy6yptq-uc.a.run.app # https://vault-co.in # APP_URL
+        address: https://vault-co.in # APP_URL endpoint(s)
         jwt_audience: https://backbank-ab4vy6yptq-uc.a.run.app
         protocol: h2
       description: |
         Origin, Methods and Headers allowing headers potentially requested
       tags:
-      - CORS
+        - CORS
       responses:
         200:
           description: OPTIONS responding headers
@@ -69,26 +72,26 @@ paths:
             Access-Control-Allow-Origin:
               type: string
               #$ref: '#/definitions/String'
-              default: '''i7l8qe.csb.app'''
+              default: "'i7l8qe.csb.app'"
             Access-Control-Allow-Methods:
               type: string
-              default: '''GET,POST'''
+              default: "'GET,POST'"
             Access-Control-Allow-Headers:
               type: string
-              default: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              default: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
         403:
           description: OPTIONS responding headers
           headers:
             Access-Control-Allow-Origin:
               type: string
               #$ref: '#/definitions/String'
-              default: '''i7l8qe.csb.app''' # '''vau.money'''
+              default: "'i7l8qe.csb.app'" # '''vau.money'''
             Access-Control-Allow-Methods:
               type: string
-              default: '''GET,POST'''
+              default: "'GET,POST'"
             Access-Control-Allow-Headers:
               type: string
-              default: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              default: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
           #content: {}
 
         default:
@@ -100,33 +103,33 @@ paths:
       summary: Respond properly indeed
       operationId: posted
       x-google-backend:
-        address: https://backbank-ab4vy6yptq-uc.a.run.app # https://vault-co.in # APP_URL
+        address: https://vault-co.in # APP_URL endpoint(s)
         jwt_audience: https://backbank-ab4vy6yptq-uc.a.run.app
         protocol: h2
       description: |
         Successful api fetch
       parameters:
-       # - name: Authorization # bearer
-          #in: header
-          #required: true
-          #type: string
-          #description: Authentication token is required
-      - name: pageOffset
-        in: body
-        required: true
-        schema:
-          type: object
-          properties:
-            pageOffset:
-              description: pageOffset is required, try 0
-              type: string
-            pageLength:
-              description: pageLength is required, try 10
-              type: string
-            postalCode:
-              description: postalCode is required, try 11101
-              type: string
-        
+        # - name: Authorization # bearer
+        #in: header
+        #required: true
+        #type: string
+        #description: Authentication token is required
+        - name: pageOffset
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              pageOffset:
+                description: pageOffset is required, try 0
+                type: string
+              pageLength:
+                description: pageLength is required, try 10
+                type: string
+              postalCode:
+                description: postalCode is required, try 11101
+                type: string
+
       responses: # https://swagger.io/docs/specification/describing-responses/
         default: #200
           description: post result
@@ -151,50 +154,49 @@ paths:
                   description:
                     type: string
   #/assets/{asset}:
-    #get:
-      #parameters:
-        #- in: path
-          #name: asset
-          #type: string
-          #required: true
-          #description: Name of the asset.
-      #summary: Assets
-      #operationId: getAsset
-      #responses:
-        #'200':
-          #description: A successful response
-          #schema:
-            #type: string
+  #get:
+  #parameters:
+  #- in: path
+  #name: asset
+  #type: string
+  #required: true
+  #description: Name of the asset.
+  #summary: Assets
+  #operationId: getAsset
+  #responses:
+  #'200':
+  #description: A successful response
+  #schema:
+  #type: string
 securityDefinitions: #https://cloud.google.com/api-gateway/docs/authenticating-users-firebase
   firebase: #bearer https://cloud.google.com/endpoints/docs/openapi/openapi-extensions
     authorizationUrl: "https://i7l8qe.csb.app" # empty for firebase frm bearer Authorization?
     flow: "implicit"
     type: "oauth2"
     #flows:https://stackoverflow.com/questions/69951644/swagger-openapi-3-documentation-for-firebase-authentication-securityscheme
-      #implicit:
-        #authorizationUrl: ""
-        #scopes:
-          #read: Grants read access
-          #write: Grants write access
-          #admin: Grants access to admin operations
+    #implicit:
+    #authorizationUrl: ""
+    #scopes:
+    #read: Grants read access
+    #write: Grants write access
+    #admin: Grants access to admin operations
     # Replace vaumoney with your project ID # X-Apigateway-Api-Userinfo
     x-google-issuer: "https://securetoken.google.com/vaumoney"
     #x-google-issuer: "https://firebase-adminsdk-afvoy@vaumoney.iam.gserviceaccount.com" # "email_of_sa" # https://j.goggs.uk/2020/07/using-cloud-endpoints-with-cloud-run/
     x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com" # firebase-adminsdk-afvoy@vaumoney.iam.gserviceaccount.com" #/email_of_sa"
-    x-google-audiences: "https://backbank-ab4vy6yptq-uc.a.run.app" # "https://vau.money,https://i7l8qe.csb.app"
+    x-google-audiences: "vaumoney" # "https://vau.money,https://i7l8qe.csb.app"
     #x-google-jwt-locations:
-      #- header: "Authorization"
-        #value_prefix: "Bearer "
+    #- header: "Authorization"
+    #value_prefix: "Bearer "
 security:
   - firebase: []
   #- bearer: []
-
 #definitions:v3
-  #String:
-    #schema:
-        #type: string
-    #properties:
-      #id:
-        #type: integer
-      #name:
-        #type: string
+#String:
+#schema:
+#type: string
+#properties:
+#id:
+#type: integer
+#name:
+#type: string
