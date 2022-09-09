@@ -1,7 +1,7 @@
 # openapi2-run.yaml
 swagger: "2.0"
 info: # >1 API/service, specify names in the x-google-api-name OpenAPI document extension.
-  title: mastercard-backbank # API_ID optional-string
+  title: backbank # mastercard-backbank # API_ID optional-string
   #https://cloud.google.com/api-gateway/docs/get-started-cloud-run
   description: node cloud run api mastercard p.12 customer keys # Sample API on API Gateway with a Cloud Run backend
   version: 0.0.1

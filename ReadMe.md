@@ -1,3 +1,6 @@
+## Cloudbuild.yaml is not so much of use as the build image + cli let alone continuous from repo... 
+# Why does the image and cli keep pending building and deploying repository?
+
 [<img align="right" src="https://www.dl.dropboxusercontent.com/s/58d5s6hz532y0er/Cloud%20Run%20vs.%20Cloud%20Function.png?dl=0" alt="Cloud Run vs. Cloud Functions">](https://www.youtube.com/watch?v=zRjOSxTpC3A?t=570) 
 "cloud splitting, custom domains listen to port and setting up a server service"
 
@@ -115,12 +118,16 @@ the taged url host, path, ex-protocol 5x: "[gcr.io/project_id/endpoints-runtime-
 
 c. ~~`gcloud run deploy mastercard-backbank --image="gcr.io/vaumoney/endpoints-runtime-serverless:2.38.0-vault-co.in-2022-09-06r0" --set-env-vars=ESPv2_ARGS=--cors_preset=basic --allow-unauthenticated --platform managed --project vaumoney`~~
 
-endpoint extensible service proxy [proper cors regex](https://cloud.google.com/endpoints/docs/openapi/specify-esp-v2-startup-options#jwt_authn)
+endpoint extensible service proxy [proper](https://cloud.google.com/sdk/gcloud/reference/run/deploy#--set-env-vars) cors [regex](https://cloud.google.com/endpoints/docs/openapi/specify-esp-v2-startup-options#jwt_authn)
 
 
 gcloud run deploy mastercard-backbank --image="gcr.io/vaumoney/endpoints-runtime-serverless:2.38.0-vault-co.in-2022-09-08r1" --set-env-vars=ESPv2_ARGS=--cors_preset=cors_with_regex--cors_allow_origin_regex=^~~https:[/][/](vau.money)?|(i7l8qe.csb.app)?~~$--cors_allow_methods=GET,POST,OPTIONS--cors_allow_headers=Origin,Content-Type,Authorization,Referrer-Policy--cors_allow_credentials --platform managed --project vaumoney
 
-`gcloud run deploy mastercard-backbank --image="gcr.io/vaumoney/endpoints-runtime-serverless:2.38.0-vault-co.in-2022-09-08r1" --set-env-vars=ESPv2_ARGS=--cors_preset=cors_with_regex--cors_allow_origin_regex=^https:[/][/]i|v|7|a|l|u|8|.|q|m|e|o|.|n|c|e|s|y|b.app$--cors_allow_methods=GET,POST,OPTIONS--cors_allow_headers=Origin,Content-Type,Authorization,Referrer-Policy--cors_allow_credentials --platform managed --project vaumoney`
+~~`gcloud run deploy backbank --image="gcr.io/vaumoney/endpoints-runtime-serverless:2.38.0-vault-co.in-2022-09-08r1" --set-env-vars=ESPv2_ARGS=--cors_preset=cors_with_regex--cors_allow_origin_regex=^https:[/][/]i|v+7|a+l|u+8|.+q|m+e|o+.|n+c|e+s|y+b.app$--cors_allow_methods=GET,POST,OPTIONS--cors_allow_headers=Origin,Content-Type,Authorization,Referrer-Policy--cors_allow_credentials --platform managed --project vaumoney`~~
+
+[Right](https://cloud.google.com/endpoints/docs/openapi/set-up-cloud-functions-espv2) AND proper `deploy = gcloud services enable `[vault-co.in](https://cloud.google.com/endpoints/docs/openapi/set-up-cloud-run-espv2) continuous deploy build enables automatically?
+
+`gcloud run deploy backbank --image="gcr.io/vaumoney/endpoints-runtime-serverless:2.38.0-vault-co.in-2022-09-08r2" --set-env-vars ESPv2_ARGS=^++^--cors_preset=cors_with_regex++--cors_allow_origin_regex=^https:[/][/]i7l8qe.csb.app$++--cors_allow_methods=GET,POST,OPTIONS++--cors_allow_headers=Origin,Content-Type,Authorization,Referrer-Policy++--cors_allow_credentials --platform managed --project vaumoney`
 
 >If you want ESPv2 to manage access, use the --allow-unauthenticated flag to ensure that ESPv2 verifies the JWT token. If the flag is not used, the JWT token is intercepted and verified by Cloud Run access control IAM server. Since the IAM and ESPv2 use the same Authorization header, they don't work together, make sure only use one of them. Recommend to use IAM instead of ESPv2 for managing access.
 
