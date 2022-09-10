@@ -28,9 +28,6 @@ securityDefinitions: #https://cloud.google.com/api-gateway/docs/authenticating-u
     #- header: "Authorization"
     #value_prefix: "Bearer "
 host: "vault-co.in"
-#x-google-endpoints:
-  #- name: "vault-co.in"
-    #allowCors: True
 basePath: "/path" # https://stackoverflow.com/questions/71258737/making-a-cloud-firestore-rest-api-call-through-cloud-endpoints
 #When the basePath property is configured in the service configuration as well,
 #this header applies only to URL paths that are prefixed by the basePath property value.
@@ -49,9 +46,12 @@ consumes:
   - application/json
 produces:
   - application/json
-x-google-allow:
-  all
+#x-google-allow:
+  #all
   #jwt_audience: https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com/vaumoney
+#x-google-endpoints:
+  #- name: "vault-co.in"
+    #allowCors: True
 paths:
   /: # https://stackoverflow.com/questions/71782426/google-cloud-api-gateway-cant-invoke-cloud-run-service-while-using-firebase-aut
     get:
