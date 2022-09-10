@@ -228,3 +228,13 @@ The simplest way to use credentials from a user account is via Application Defau
 https://gcloud.readthedocs.io/en/latest/google-cloud-auth.html
 
 Why wouldn't explicit uid granted token flow with refresh token in *yaml flow* work?
+
+scale to zero individual generous for everyone
+
+google cloud run endpoint service proxy (version 2) api gateway (swagger firebase base64 token)
+
+````
+gcloud projects add-iam-policy-binding vaumoney \    
+  --role=roles/run.invoker --member \
+  serviceAccount:firebase-adminsdk-afvoy@vaumoney.iam.gserviceaccount.com
+````

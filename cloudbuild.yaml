@@ -1,5 +1,5 @@
 # not so much of use as the (ReadMe.md) build image + cli let alone continuous from repo... 
-# but why does the image and cli keep pending building and deploying repository?
+# but why does the image and cli keep pending building and deploying repository?  (ethical for reward)
 steps:
 - name: 'gcr.io/cloud-builders/gcloud'
   args:
@@ -17,3 +17,4 @@ steps:
   # endpoint api config (deployed-build deploy) innocent animal dragon, gov contractors and fetter, efficiency coefficiency saverparty.xyz/global not customs parity
   # https://cloud.google.com/build/docs/deploying-builds/deploy-cloud-run#cloud-run_1 for a living, any living. whose living? I WILL INVOKE THE CONVICT INTRANET. bout time psaki ban. Q was right
   # https://github.com/GoogleCloudPlatform/cloud-build-samples/blob/main/quickstart-deploy/cloudbuild.yaml
+
