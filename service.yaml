@@ -3,11 +3,16 @@ apiVersion: v1
 kind: Service
 metadata:
   name: backbank
+  labels:
+    app: hello
 spec:
   ports:
   - port: 80
-    targetPort: 8080
+    targetPort: 31385 #8081
     protocol: TCP
   selector:
     app: mastercard-backbank
+    tier: web
   type: LoadBalancer
+  loadBalancerIP: 35.238.171.90 # "YOUR.IP.ADDRESS.HERE"
+#https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip#step_2b_using_an_ingress

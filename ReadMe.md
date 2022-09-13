@@ -1,3 +1,5 @@
+# [GKE](https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip#deploying_your_web_application) versus [ingress load balancer](https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip#step_2b_using_an_ingress) [...](https://stackoverflow.com/questions/46944969/set-static-external-ip-for-my-load-balancer-on-gke) ~~[Reserve a static external IP address](https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address)~~ forwarding rule kubectl services' static LB
+
 ## Cloudbuild.yaml is not so much of use as the build image + cli let alone continuous from repo... 
 # Why does the image and cli keep pending building and deploying repository?
 
@@ -268,4 +270,50 @@ or `brew install kubectl` or `brew link --overwrite kubernetes-cli`
 
 >Minikube local or `kube-up.sh` cluster [to verify](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/#verify-kubectl-configuration)
 
-> [Install kubectl and configure cluster access](https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl)
+> [Install kubectl and configure cluster access](https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl)... *"You are about to enable 'Kubernetes Engine API."*
+
+`gcloud container clusters create backbank` *Your Pod address range (`--cluster-_-_`) can accommodate at most 1008 node(s).* `Creating cluster backbank in us-central1-c... Cluster is being deployed... "" health-checked (master is healthy)... `
+
+> done. kubeconfig [system workloads] entry generated for backbank. NAME(service.yaml) LOCATION(Region) MASTER_VERSION(1.22.11-gke.400) MASTER_IP() MACHINE_TYPE(e2-medium)  NODE_VERSION(1.22.11-gke.400) NUM_NODES(3) **RUNNING**
+
+`kubectl apply -f service.yaml` *service/backbank created* `kubectl get services`NAME(service.yaml) TYPE(LoadBalancer) CLUSTER-IP() EXTERNAL-IP(<pending>) PORT(S)(80:31385/TCP) AGE(27s)
+
+kubernetes ClusterIP as well, no external-ip yet 443/TCP port 12m
+
+>*Change the generated external IP from ephemeral to static.* == `reserve` the "forwarding rule" user EXTERNAL_IP = type=>static (internally names ephemeral. Still, DNS: `A Record name(@) value(EXTERNAL_IP)`).
+
+#### [Configuring domain names with static IP addresses](https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip#step_2b_using_an_ingress)
+
+>To prove that the [IP address works](https://tpryan.blog/2016/06/06/making-kubernetes-ip-addresses-static-on-google-container-engine/), you should kubectl delete the service and then kubectl apply, but you don’t have to do that. If you do that though, please be aware that although your IP address is locked in, your load balancer still needs a little bit of time to fire up.  
+
+`service.yaml`
+````
+apiVersion: v1
+kind: Service
+metadata:
+  name: backbank
+  labels:
+    app: hello
+spec:
+  ports:
+  - port: 80
+    targetPort: 31385 #8081
+    protocol: TCP
+  selector:
+    app: mastercard-backbank
+    tier: web
+  type: LoadBalancer
+  loadBalancerIP: 35.238.171.90 # "YOUR.IP.ADDRESS.HERE"
+````
+In root `~` ["auth changes"](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
+````
+mkdir .bashrc
+cd .bashrc
+export USE_GKE_GCLOUD_AUTH_PLUGIN=False
+source ~/.bashrc
+gcloud components update
+````
+
+## Client-go Credential Plugin
+
+`gcloud container clusters get-credentials backbank`
