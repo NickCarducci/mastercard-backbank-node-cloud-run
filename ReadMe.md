@@ -127,7 +127,9 @@ gcloud run deploy mastercard-backbank --image="gcr.io/vaumoney/endpoints-runtime
 
 [Right](https://cloud.google.com/endpoints/docs/openapi/set-up-cloud-functions-espv2) AND proper `deploy = gcloud services enable `[vault-co.in](https://cloud.google.com/endpoints/docs/openapi/set-up-cloud-run-espv2) continuous deploy build enables automatically?
 
-`gcloud run deploy backbank --image="gcr.io/vaumoney/endpoints-runtime-serverless:2.38.0-vault-co.in-2022-09-08r2" --set-env-vars ESPv2_ARGS=^++^--cors_preset=cors_with_regex++--cors_allow_origin_regex=^https:[/][/]i7l8qe.csb.app$++--cors_allow_methods=GET,POST,OPTIONS++--cors_allow_headers=Origin,Content-Type,Authorization,Referrer-Policy++--cors_allow_credentials --platform managed --project vaumoney`
+~~`gcloud run deploy backbank --image="gcr.io/vaumoney/endpoints-runtime-serverless:2.38.0-vault-co.in-2022-09-12r0" --set-env-vars=ESPv2_ARGS=^++^--cors_preset=cors_with_regex++--cors_allow_origin_regex=^https:[/][/]i7l8qe.csb.app$++--cors_allow_methods=GET,POST,OPTIONS++--cors_allow_headers=Origin,Content-Type,Authorization,Referrer-Policy++--cors_allow_credentials --platform managed --project vaumoney`~~
+
+`gcloud run deploy backbank --image="gcr.io/vaumoney/endpoints-runtime-serverless:2.38.0-vault-co.in-2022-09-12r0" --set-env-vars=ESPv2_ARGS=^++^--cors_preset=basic++--cors_allow_methods=GET,POST,OPTIONS++--cors_allow_headers=Origin,Content-Type,Authorization,Referrer-Policy++--cors_allow_credentials --platform managed --project vaumoney`
 
 >If you want ESPv2 to manage access, use the --allow-unauthenticated flag to ensure that ESPv2 verifies the JWT token. If the flag is not used, the JWT token is intercepted and verified by Cloud Run access control IAM server. Since the IAM and ESPv2 use the same Authorization header, they don't work together, make sure only use one of them. Recommend to use IAM instead of ESPv2 for managing access.
 
@@ -238,3 +240,32 @@ gcloud projects add-iam-policy-binding vaumoney \
   --role=roles/run.invoker --member \
   serviceAccount:firebase-adminsdk-afvoy@vaumoney.iam.gserviceaccount.com
 ````
+
+(Google cloud run endpoint service proxy api gateway firebase token)
+
+"what do you think about that" To tie oneself to a politician is to materialize a tool (as James Madison might have it). https://thumbprint.quora.com/https-www-quora-com-Who-read-Marx-answer-Nick-Carducci
+
+Explicit reconciliation approval voting (with mock direct, anon randomized 1.device/ 2.managed-recoverable)
+
+"set the tone [thru the phone]"
+
+> "We're back to Cloud Endpoints and ESPv2 for the time being, but we 100% see the benefits of the managed API Gateway, should CORS support be available for gRPC requests." [Google cloud run endpoint (extensible) service proxy api gateway firebase token](https://stackoverflow.com/questions/73674814/google-cloud-run-endpoint-extensible-service-proxy-api-gateway-firebase-token)
+
+# kubeconfig `service.yaml` [google cloud endpoints](https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl)
+
+### [kubectl GKE (automatically does load balancing for you) not Engine](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/)
+
+````
+Move the kubectl binary to a file location on your system PATH.
+
+sudo mv ./kubectl /usr/local/bin/kubectl
+sudo chown root: /usr/local/bin/kubectl
+````
+
+or `brew install kubectl` or `brew link --overwrite kubernetes-cli`
+
+## service configuration 'kubeconfig' file, [`service.yaml`](https://cloud.google.com/endpoints/docs/grpc/serving-apis-from-domains#gke)
+
+>Minikube local or `kube-up.sh` cluster [to verify](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/#verify-kubectl-configuration)
+
+> [Install kubectl and configure cluster access](https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl)
