@@ -288,22 +288,24 @@ kubernetes ClusterIP as well, no external-ip yet 443/TCP port 12m
 
 `service.yaml`
 ````
+
 apiVersion: v1
 kind: Service
 metadata:
   name: backbank
   labels:
-    app: hello
+    app: mastercard-backbank
 spec:
-  ports:
-  - port: 80
-    targetPort: 31385 #8081
-    protocol: TCP
   selector:
     app: mastercard-backbank
     tier: web
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
   type: LoadBalancer
   loadBalancerIP: "YOUR.IP.ADDRESS.HERE"
+  externalTrafficPolicy: Local
 ````
 In root `~` ["auth changes"](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
 ````
@@ -316,4 +318,45 @@ gcloud components update
 
 ## Client-go Credential Plugin
 
+`gcloud container clusters get-credentials backbank`
+
+`kubectl describe services/backbank`
+
+[(?)](https://stackoverflow.com/questions/69564350/gke-loadbalancer-external-ip-address-cannot-be-reached)
+
+`gcloud container clusters update backbank --logging`
+
+`https://console.cloud.google.com/kubernetes/workload_/gcloud/us-central1-c/backbank?project=vaumoney`
+
+#### [Quickstart: Set up DNS records for a domain name with Cloud DNS](https://cloud.google.com/dns/docs/set-up-dns-records-domain-name) Guide Me
+
+>[`*.cluster.local`](https://cloud.google.com/kubernetes-engine/docs/how-to/cloud-dns#dns_scopes) You must set a unique custom domain for each cluster, which means that all Service and Pod DNS records are unique within the VPC.
+
+`gcloud beta container clusters update backbank --cluster-dns=clouddns --cluster-dns-scope=cluster`
+
+>After you [confirm](https://cloud.google.com/kubernetes-engine/docs/how-to/cloud-dns#enable_cluster_scope_dns_in_an_existing_cluster), the Cloud DNS controller runs on the GKE control plane, but your Pods do not use Cloud DNS for DNS resolution until you upgrade your node pool or you add new node pools to the cluster.
+
+# (Enable 'Cloud DNS API' don'tchaknow)
+
+`gcloud container clusters describe backbank`
+
+~~(IP addresses) forwarding rule (if still 'ephemeral' not 'static' go back)> target pool details x2376gv197d6g19237fr6g936v POOL_NAME~~
+
+`gcloud container node-pools create teller --cluster backbank --service-account 580465804476-compute@developer.gserviceaccount.com`
+
+>[Creating node pool](https://cloud.google.com/kubernetes-engine/docs/how-to/node-pools) teller..
+
+`gcloud beta container clusters upgrade backbank --node-pool=teller --cluster-version=1.22`
+
+>Updated [https://container.googleapis.com/v1beta1/projects/vaumoney/zones/us-central1-c/clusters/backbank].
+
+`gcloud container clusters upgrade backbank --master --cluster-version 1.22`
+
+`kubectl exec -it teller -- cat /etc/resolv.conf | grep nameserver`
+
+Instance groups (autoscaling "off" because local?)
+
+[How to remove warning in kubectl with gcp auth plugin?](https://stackoverflow.com/questions/72274548/how-to-remove-warning-in-kubectl-with-gcp-auth-plugin)
+
+`export USE_GKE_GCLOUD_AUTH_PLUGIN=True`
 `gcloud container clusters get-credentials backbank`
