@@ -303,7 +303,7 @@ spec:
     app: mastercard-backbank
     tier: web
   type: LoadBalancer
-  loadBalancerIP: 35.238.171.90 # "YOUR.IP.ADDRESS.HERE"
+  loadBalancerIP: "YOUR.IP.ADDRESS.HERE"
 ````
 In root `~` ["auth changes"](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
 ````
