@@ -267,7 +267,7 @@ Explicit reconciliation approval voting (with mock direct, anon randomized 1.dev
 
 #### Perhaps [non-GKE cluster](https://cloud.google.com/marketplace/docs/kubernetes-apps/deploying-non-gke-clusters) instead?
 
-### [Perhaps cloudflare tunnel](https://www.youtube.com/watch?v=3xJOq5b0P4Q)??
+### [Perhaps cloudflare tunnel](https://www.youtube.com/watch?v=3xJOq5b0P4Q)?? [how to use cloudflare tunnel to expose multiple local services](https://tech.aufomm.com/how-to-use-cloudflare-tunnel-to-expose-multiple-local-services/)
 
 ````
 Move the kubectl binary to a file location on your system PATH.
