@@ -1,4 +1,10 @@
-# [GKE](https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip#deploying_your_web_application) versus [ingress load balancer](https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip#step_2b_using_an_ingress) [...](https://stackoverflow.com/questions/46944969/set-static-external-ip-for-my-load-balancer-on-gke) ~~[Reserve a static external IP address](https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address)~~ forwarding rule kubectl services' static LB
+[Kubernetes stop instance migrate container *run image*](https://github.com/NickCarducci/sausage)
+
+\_ (9/2022)
+
+#### [GKE](https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip#deploying_your_web_application) versus [ingress load balancer](https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip#step_2b_using_an_ingress) [...](https://stackoverflow.com/questions/46944969/set-static-external-ip-for-my-load-balancer-on-gke) ~~[Reserve a static external IP address](https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address)~~ forwarding rule kubectl services' static LB
+
+\_ (8/2022)
 
 ## Cloudbuild.yaml is not so much of use as the build image + cli let alone continuous from repo... 
 # Why does the image and cli keep pending building and deploying repository?
@@ -257,6 +263,12 @@ Explicit reconciliation approval voting (with mock direct, anon randomized 1.dev
 
 ### [kubectl GKE (automatically does load balancing for you) not Engine](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/)
 
+>There is widespread confusion that Linux containers are, in essence, mini versions of VMs. Indeed, we might erroneously assume that when we look inside a Linux container. There we will find the familiar filesystem structure, devices, and software used in any Linux distribution. However, [the contents of the container’s filesystem](https://medium.com/kubernetes-tutorials/how-can-containers-and-kubernetes-save-you-money-fc66b0c94022) and its runtime environment are not a full OS but a small representation of the target OS needed for the container to work. The kernel and underlying resources are still provided by the host OS, whereas the system devices and software are provided by the image. A host Linux OS is, therefore, able to run a container even though it appears to be an entirely different Linux distribution. - Kirill Goltsman
+
+#### Perhaps [non-GKE cluster](https://cloud.google.com/marketplace/docs/kubernetes-apps/deploying-non-gke-clusters) instead?
+
+### [Perhaps cloudflare tunnel](https://www.youtube.com/watch?v=3xJOq5b0P4Q)??
+
 ````
 Move the kubectl binary to a file location on your system PATH.
 
@@ -276,7 +288,7 @@ or `brew install kubectl` or `brew link --overwrite kubernetes-cli`
 
 > done. kubeconfig [system workloads] entry generated for backbank. NAME(service.yaml) LOCATION(Region) MASTER_VERSION(1.22.11-gke.400) MASTER_IP() MACHINE_TYPE(e2-medium)  NODE_VERSION(1.22.11-gke.400) NUM_NODES(3) **RUNNING**
 
-`kubectl apply -f service.yaml` *service/backbank created* `kubectl get services`NAME(service.yaml) TYPE(LoadBalancer) CLUSTER-IP() EXTERNAL-IP(<pending>) PORT(S)(80:31385/TCP) AGE(27s)
+I. `kubectl apply -f service.yaml` *service/backbank created* `kubectl get services`NAME(service.yaml) TYPE(LoadBalancer) CLUSTER-IP() EXTERNAL-IP(<pending>) PORT(S)(80:31385/TCP) AGE(27s)
 
 kubernetes ClusterIP as well, no external-ip yet 443/TCP port 12m
 
@@ -332,7 +344,7 @@ gcloud components update
 
 >[`*.cluster.local`](https://cloud.google.com/kubernetes-engine/docs/how-to/cloud-dns#dns_scopes) You must set a unique custom domain for each cluster, which means that all Service and Pod DNS records are unique within the VPC.
 
-`gcloud beta container clusters update backbank --cluster-dns=clouddns --cluster-dns-scope=cluster`
+II. `gcloud beta container clusters update backbank --cluster-dns=clouddns --cluster-dns-scope=cluster`
 
 >After you [confirm](https://cloud.google.com/kubernetes-engine/docs/how-to/cloud-dns#enable_cluster_scope_dns_in_an_existing_cluster), the Cloud DNS controller runs on the GKE control plane, but your Pods do not use Cloud DNS for DNS resolution until you upgrade your node pool or you add new node pools to the cluster.
 
@@ -342,17 +354,19 @@ gcloud components update
 
 ~~(IP addresses) forwarding rule (if still 'ephemeral' not 'static' go back)> target pool details x2376gv197d6g19237fr6g936v POOL_NAME~~
 
-`gcloud container node-pools create teller --cluster backbank --service-account 580465804476-compute@developer.gserviceaccount.com`
+III. `gcloud container node-pools create teller --cluster backbank --service-account 580465804476-compute@developer.gserviceaccount.com`
 
 >[Creating node pool](https://cloud.google.com/kubernetes-engine/docs/how-to/node-pools) teller..
 
-`gcloud beta container clusters upgrade backbank --node-pool=teller --cluster-version=1.22`
+### Namespace kube-system is how gcloud creates node-pools (pod-pools)
+
+`gcloud beta container clusters upgrade backbank --master --node-pool=teller --cluster-version=latest` 1.22
 
 >Updated [https://container.googleapis.com/v1beta1/projects/vaumoney/zones/us-central1-c/clusters/backbank].
 
-`gcloud container clusters upgrade backbank --master --cluster-version 1.22`
+V. `kubectl exec -it kube-proxy-gke-backbank-teller-20fdf791-396r -- cat /etc/resolv.conf | grep nameserver`
 
-`kubectl exec -it teller -- cat /etc/resolv.conf | grep nameserver`
+> (IV.?) 169.254.169.254 is the IP address of the metadata server where the Cloud DNS data plane listens for requests on port 53.
 
 Instance groups (autoscaling "off" because local?)
 
@@ -360,3 +374,29 @@ Instance groups (autoscaling "off" because local?)
 
 `export USE_GKE_GCLOUD_AUTH_PLUGIN=True`
 `gcloud container clusters get-credentials backbank`
+
+`gcloud container node-pools list --cluster=backbank`
+
+[Install kubectl and configure cluster access](https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl) *gcloud components install gke-gcloud-auth-plugin*
+
+`kubectl get namespaces`
+
+`kubectl config current-context`
+
+>gke_vaumoney_us-central1-c_backbank
+
+"container.clusterViewer" Kubernetes Engine Cluster Viewer (principal-role name: Compute Engine default service account)
+
+~~`kubectl config set-context gke_vaumoney_us-central1-c_backbank --namespace=default`~~
+
+`kubectl config view`
+
+~~[`kubectl create namespace banking`](https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-organizing-with-namespaces)~~
+
+`kubectl get pods --all-namespaces`
+
+>NAMESPACE(kube-system) NAME(kube-proxy-gke-backbank-POOL_NAME-node_name) READY(1/1) STATUS(Running) RESTARTS(0) AGE()
+
+IV. `brew install kubectx`
+`kubens kube-system`
+

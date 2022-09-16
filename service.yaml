@@ -3,9 +3,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: backbank
+  namespace: banking
   labels:
     app: mastercard-backbank
 spec:
+  #replicas: 0
   ports:
   - port: 80
     targetPort: 8080
@@ -15,9 +17,9 @@ spec:
     tier: web
   type: LoadBalancer
   loadBalancerIP: 35.238.171.90 # "YOUR.IP.ADDRESS.HERE"
-  externalTrafficPolicy: Local
-  restartPolicy: Always
-  hostNetwork: true
-  dnsPolicy: ClusterFirstWithHostNet
+  #externalTrafficPolicy: Local
+#restartPolicy: Always
+#hostNetwork: true
+#dnsPolicy: ClusterFirstWithHostNet
 #https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip#step_2b_using_an_ingress
 #https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/
