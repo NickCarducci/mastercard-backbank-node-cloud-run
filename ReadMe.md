@@ -1,3 +1,5 @@
+### defunct: [just as expensive](https://hibit.cc) by listing vm services, gke or engine
+
 [Kubernetes stop instance migrate container *run image*](https://github.com/NickCarducci/sausage)
 
 \_ (9/2022)
