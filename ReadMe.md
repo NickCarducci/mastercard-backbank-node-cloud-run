@@ -14,7 +14,7 @@
 [<img align="right" src="https://www.dl.dropboxusercontent.com/s/58d5s6hz532y0er/Cloud%20Run%20vs.%20Cloud%20Function.png?dl=0" alt="Cloud Run vs. Cloud Functions">](https://www.youtube.com/watch?v=zRjOSxTpC3A?t=570) 
 "cloud splitting, custom domains listen to port and setting up a server service"
 
-[Cloud Run on GKE](https://www.youtube.com/watch?v=nhwYc4StHIc), maybe [upgrade to Firebase with Identity Platform](https://cloud.google.com/identity-platform/docs/product-comparison?_ga=2.250193030.-1089526005.1657906968) (not to be confused with IAM for Cloud Admin roles mngmt)
+[Cloud Run on GKE](https://www.youtube.com/watch?v=nhwYc4StHIc), maybe [upgrade to Firebase with Identity Platform](https://cloud.google.com/identity-platform/docs/product-comparison) (not to be confused with IAM for Cloud Admin roles mngmt)
 
 # [AHHHHH](https://www.youtube.com/watch?v=5r21CVd6nwo) - (1-3. internal token generation (verification) and workflows vs. 4. require authentication external hard private key)
 
