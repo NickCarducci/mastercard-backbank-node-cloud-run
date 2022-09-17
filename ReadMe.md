@@ -1,4 +1,4 @@
-### defunct: [just as expensive](https://hibit.cc) by listing vm services, gke or engine (prev: [mastercard-backbank](https://github.com/NickCarducci/mastercard-backbank))
+### defunct: [just as expensive](https://hibit.cc) by listing vm services, gke or engine (next: [mastercard-backbank-libnode](https://github.com/NickCarducci/mastercard-backbank-libnode), prev: [mastercard-backbank](https://github.com/NickCarducci/mastercard-backbank))
 
 [Kubernetes stop instance migrate container *run image*](https://github.com/NickCarducci/sausage)
 
