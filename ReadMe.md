@@ -28,7 +28,7 @@ process.env<secrets> consumer, p12 keys
 
 [PATH="$PATH:$HOME/gcloud"](https://cloud.google.com/run/docs/testing/local)
 
-> [Cloud Run comes with a generous free tier and is pay per use, which means you only pay while a request is being handled on your container instance. (If it is idle with no traffic, then you don’t pay anything).](https://github.com/GoogleCloudPlatform/cloud-build-samples/blob/main/multiple-node-versions-example/index.js)
+> [Cloud Run](https://github.com/GoogleCloudPlatform/cloud-build-samples/blob/main/multiple-node-versions-example/index.js) comes with a generous free tier and is pay per use, which means you only pay while a request is being handled on your container instance. ([If it is idle with no traffic, then you don’t pay anything](https://cloud.google.com/blog/topics/developers-practitioners/cloud-run-story-serverless-containers)).
 
 [Because jobs should not serve requests, the container should not listen on a port or start a web server.](https://cloud.google.com/run/docs/container-contract#jobs-exit)
 
